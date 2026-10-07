@@ -1,0 +1,25 @@
+======================================================================
+FACULTY COURSE MANAGEMENT PORTAL - GIT WORKFLOW DEMONSTRATION
+======================================================================
+
+This file was created on branch 'git-demo' to demonstrate the standard
+three-tier Git workflow required by the Web Technologies syllabus:
+
+1. Working Directory:
+   Files modified or newly created on the local file system.
+   (Before staging: detected by 'git status' as untracked or modified)
+
+2. Staging Area (Index):
+   Files prepared and indexed for the next commit snapshot.
+   (Command: 'git add <file>' or 'git add .')
+
+3. Local Repository:
+   Cryptographically hashed immutable snapshot stored in .git.
+   (Command: 'git commit -m "<message>"')
+
+Branch Lifecycle:
+- Created branch: git switch -c git-demo
+- Committed on: git-demo
+- Merged back into: main
+- Cleaned up: git branch -d git-demo
+======================================================================
