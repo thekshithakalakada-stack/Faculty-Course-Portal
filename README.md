@@ -108,23 +108,24 @@ private static final String DB_PASSWORD = "root"; // Your MySQL password
 
 ---
 
-## 6. How to Compile and Run the JDBC Layer
+## 6. How to Compile and Run the Application
 
-### Step 1: Compile All Java Classes
-From the root directory of the project, run:
+### Step 1: Compile All Java Classes (Models, DAOs, Servlets, and Tests)
+The project includes `servlet-api.jar` and `jsp-api.jar` in `lib/` (from Apache Tomcat 9.0). Run:
 ```powershell
-# Create output directory for class files
+# Create build directories
 if (!(Test-Path "bin")) { New-Item -ItemType Directory -Path "bin" }
+if (!(Test-Path "WebContent\WEB-INF\classes")) { New-Item -ItemType Directory -Path "WebContent\WEB-INF\classes" }
 
-# Compile all models, utilities, DAOs, and tests
-javac -d bin src/com/portal/model/*.java src/com/portal/util/*.java src/com/portal/dao/*.java src/com/portal/test/*.java
+# Compile all source files
+javac -cp "lib\servlet-api.jar;lib\jsp-api.jar" -d bin src\com\portal\model\*.java src\com\portal\util\*.java src\com\portal\dao\*.java src\com\portal\controller\*.java src\com\portal\test\*.java
+
+# Deploy compiled classes into WebContent/WEB-INF/classes for Tomcat
+Copy-Item -Recurse -Force "bin\com" "WebContent\WEB-INF\classes\"
 ```
 
-### Step 2: Download MySQL Connector/J Driver (If not already in classpath)
-Download `mysql-connector-j-8.x.x.jar` (official MySQL JDBC Type 4 driver) and place it in a `lib/` directory or in `WebContent/WEB-INF/lib/`.
-
-### Step 3: Run the Standalone JDBC Test Suite
-Execute the test runner using the `java` command with the driver on the classpath:
+### Step 2: Standalone JDBC Test Suite Execution
+Execute the test runner using the `java` command with the MySQL connector on the classpath:
 ```powershell
 java -cp "bin;lib/mysql-connector-j-8.0.33.jar" com.portal.test.JDBCTest
 ```
@@ -141,7 +142,87 @@ The test runner will execute and print terminal verification for:
 
 ---
 
-## 7. Git Version Control Workflow
+## 7. Servlet Architecture and Web Server Deployment
+
+### A. Web Server / Tomcat Deployment Concept
+This project targets **Apache Tomcat 9.0**, which implements the syllabus-standard **Servlet 4.0** and **JSP 2.3** specifications (`javax.servlet.*` and `javax.servlet.http.*` packages).
+
+#### Standard Deployment Structure:
+```text
+Tomcat webapps/FacultyCoursePortal/
+├── css/style.css
+├── js/script.js
+├── images/college.jpg
+├── index.html
+├── courses.html
+├── addCourse.html
+├── login.html
+└── WEB-INF/
+    ├── web.xml                      # Deployment Descriptor
+    ├── classes/                     # Compiled bytecode (com/portal/...)
+    └── lib/                         # Application JARs (mysql-connector-j-*.jar)
+```
+
+#### How to Deploy to Apache Tomcat 9:
+1. **Option A (Folder Deployment):**
+   Copy the `WebContent` folder to your Tomcat `webapps` directory as `FacultyCoursePortal`:
+   ```powershell
+   Copy-Item -Recurse -Force "WebContent" "C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\FacultyCoursePortal"
+   ```
+2. **Option B (WAR Deployment):**
+   Package `WebContent` into a `.war` file and drop it into Tomcat's `webapps/` folder.
+3. Ensure MySQL Connector JAR (`mysql-connector-j-*.jar`) is copied into `WebContent/WEB-INF/lib/` or Tomcat's `lib/` directory.
+4. Start Apache Tomcat 9.0 and open:
+   `http://localhost:8080/FacultyCoursePortal/`
+
+### B. Servlet URL Mappings (Configured in `web.xml`)
+
+| URL Pattern | Servlet Class | HTTP Methods | Purpose |
+| :--- | :--- | :--- | :--- |
+| `/login` | `LoginServlet` | GET, POST | Authenticates faculty, creates `HttpSession`, adds `lastFacultyUser` cookie, and redirects |
+| `/logout` | `LogoutServlet` | GET, POST | Invalidates `HttpSession`, clears credentials, redirects to `login.html` |
+| `/courses`, `/viewCourses` | `CourseServlet` | GET | Fetches course list via `CourseDAO`, sets request attributes, forwards to View |
+| `/addCourse` | `AddCourseServlet` | GET, POST | Reads course form parameters, validates bounds, creates `Course` bean, calls `CourseDAO.addCourse()` |
+| `/updateCourse` | `UpdateCourseServlet` | POST | Reads updated course parameters, calls `CourseDAO.updateCourse()`, redirects |
+| `/deleteCourse` | `DeleteCourseServlet` | GET, POST | Reads `courseId`, calls `CourseDAO.deleteCourse()`, redirects to updated list |
+| `/editCourse` | `EditCourseServlet` | GET | Reads `courseId`, retrieves course via `CourseDAO.getCourseById()`, binds to request attribute |
+
+### C. Servlet Lifecycle Demonstration
+Implemented in [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java):
+1. **`init(ServletConfig config)`**: Called once when the servlet container initializes the servlet. Demonstrates reading `<init-param>` (`applicationName`, `adminContact`).
+2. **`service(request, response)`**: Standard HTTP request dispatcher that evaluates request method and delegates to `doGet()` or `doPost()`.
+3. **`doGet(request, response)` / `doPost(request, response)`**: Processes client request data and generates responses.
+4. **`destroy()`**: Called once before the servlet instance is deallocated, releasing held resources.
+
+### D. Session & Cookie Management
+1. **Session (`HttpSession`)**:
+   * Created on successful login: `HttpSession session = request.getSession(true);`
+   * Binds faculty details: `session.setAttribute("facultyUser", faculty);`
+   * Session timeout: configured to 30 minutes in `web.xml` and via `session.setMaxInactiveInterval(30 * 60)`.
+   * Terminated on logout: `session.invalidate();`
+2. **Cookies (`Cookie`)**:
+   * Remembers non-sensitive preference: `new Cookie("lastFacultyUser", username)`
+   * Age configured: `cookie.setMaxAge(24 * 60 * 60)` (24 hours)
+   * Added to response: `response.addCookie(cookie)`
+   * Read on GET request: `request.getCookies()`
+   * **Security Rule:** Passwords are never stored in cookies.
+
+### E. Database Access Flow (MVC Integration)
+```text
+Browser Form / Link
+       ↓ (HTTP GET / POST)
+Servlet Controller (e.g., LoginServlet, CourseServlet, AddCourseServlet)
+       ↓ (Reads request params, validates, instantiates JavaBean Model)
+DAO Layer (CourseDAO, FacultyDAO)
+       ↓ (PreparedStatement / CallableStatement / Statement)
+JDBC Connection (DBConnection via java.sql.DriverManager)
+       ↓ (TCP / Network Protocol)
+MySQL Relational Database (faculty_portal)
+```
+
+---
+
+## 8. Git Version Control Workflow
 
 This project is tracked using Git to demonstrate syllabus requirements for version control:
 
@@ -156,7 +237,7 @@ git status
 git add .
 
 # 4. Commit changes with a descriptive message
-git commit -m "Implement Frontend Foundation and Stage 2 JDBC Backend"
+git commit -m "Implement Stage 3: Servlet Backend and web.xml deployment descriptor"
 
 # 5. Create and switch to main branch
 git branch -M main
@@ -170,6 +251,6 @@ git push -u origin main
 
 ---
 
-## 8. Syllabus Demonstration Quick Links
+## 9. Syllabus Demonstration Quick Links
 
 For the exact file and method locations of every syllabus topic, refer to [SYLLABUS_MAPPING.md](file:///c:/Users/sivak/Faculty-Course-Portal/SYLLABUS_MAPPING.md).

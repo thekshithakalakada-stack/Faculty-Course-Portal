@@ -61,10 +61,27 @@ This document provides a comprehensive mapping between the **College Web Technol
 | **Relational Database Design** | [database/setup.sql](file:///c:/Users/sivak/Faculty-Course-Portal/database/setup.sql) | DDL schema script creating `faculty` and `courses` tables with `PRIMARY KEY`, `FOREIGN KEY`, `CHECK` (credit range 1–6), `UNIQUE`, sample data records, and stored procedures. |
 | **Standalone Test Suite** | [src/com/portal/test/JDBCTest.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/test/JDBCTest.java) | Standalone command-line test runner demonstrating all 7 JDBC topics in sequence with formatted console output for viva evaluation. |
 
+## 4. Servlets Syllabus Mapping
+
+| Syllabus Topic | File / Class / Method | Implementation & Demonstration Details |
+| :--- | :--- | :--- |
+| **Server-Side Programming** | [com.portal.controller.*](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller) | Java servlets executing on the web container server handling HTTP transactions, business validation, and database operations. |
+| **Web Servers / Tomcat Deployment** | [WebContent/WEB-INF/web.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/web.xml), [README.md](file:///c:/Users/sivak/Faculty-Course-Portal/README.md) | Standard Java EE Web Application structure (`WEB-INF/web.xml`, `WEB-INF/classes`, `WEB-INF/lib`) for deployment onto Apache Tomcat 9.0 servlet container. |
+| **Servlet Life Cycle** | [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L52-L76) | Demonstrates complete lifecycle: `init(ServletConfig)` for startup initialization, `service()` request dispatching to `doGet()`/`doPost()`, and `destroy()` for graceful shutdown. |
+| **Reading Servlet Parameters** | [AddCourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/AddCourseServlet.java#L47-L62), [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L118-L125) | `request.getParameter("paramName")` extracting form fields: `username`, `password`, `courseId`, `courseName`, `faculty`, `credits`, `courseType`, `courseLevel`, `isCore`, `description`. |
+| **Initialization Parameters** | [web.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/web.xml#L27-L36), [LoginServlet.java:init()](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L58-L69) | Configured in `web.xml` using `<init-param>` (`applicationName`, `adminContact`) and retrieved in Java code using `ServletConfig.getInitParameter()`. |
+| **HTTP Request and Response** | Across all Servlets | Demonstrates `HttpServletRequest` (parameters, headers, session, cookies, attributes) and `HttpServletResponse` (redirects, cookies, status codes). |
+| **javax.servlet.* Package** | Across all Servlets | Utilizes `javax.servlet.ServletConfig`, `javax.servlet.ServletException`, `javax.servlet.RequestDispatcher`. |
+| **javax.servlet.http.* Package** | Across all Servlets | Utilizes `javax.servlet.http.HttpServlet`, `javax.servlet.http.HttpServletRequest`, `javax.servlet.http.HttpServletResponse`, `javax.servlet.http.HttpSession`, `javax.servlet.http.Cookie`. |
+| **Redirection** | [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L161), [LogoutServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LogoutServlet.java#L57), [AddCourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/AddCourseServlet.java#L123) | Client-side redirection via `response.sendRedirect(request.getContextPath() + "/url")` after POST submissions and authentication. |
+| **Session Management** | [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L141-L151), [LogoutServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LogoutServlet.java#L45-L55) | Creating session via `request.getSession(true)`, binding user attributes (`session.setAttribute("facultyUser", faculty)`), setting timeout (`setMaxInactiveInterval`), and invalidating upon logout (`session.invalidate()`). |
+| **Cookie Management** | [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java#L87-L105) | Creating non-sensitive cookie (`new Cookie("lastFacultyUser", username)`), setting max age (`24*60*60`), attaching to response (`response.addCookie()`), and reading client cookies (`request.getCookies()`). No passwords stored. |
+| **Database Access Using Servlets** | [CourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/CourseServlet.java), [AddCourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/AddCourseServlet.java), [LoginServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/LoginServlet.java) | Clean MVC abstraction: Servlets delegate all SQL and data queries to `CourseDAO` and `FacultyDAO` without hardcoded SQL in controller classes. |
+| **MVC Architecture (Controller)** | [CourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/CourseServlet.java), [EditCourseServlet.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller/EditCourseServlet.java) | Servlets act as Controllers: intercepting requests, calling DAOs/Models, binding results to request attributes (`request.setAttribute("courseList", courses)`), and dispatching to View layer via `RequestDispatcher.forward()`. |
+
 ---
 
-## 4. Upcoming Stages (To Be Implemented Incrementally)
-- **Git:** Version control workflow, commands, staging, branching, repository setup.
-- **Servlets:** Servlet lifecycle, parameters, session, cookies, redirection, DB access.
-- **JSP:** Directives, scripting elements, action elements, implicit objects, error handling, MVC View.
-- **XML:** DTD, XSD, XSLT, DOM Parser, SAX Parser.
+## 5. Upcoming Stages (To Be Implemented Incrementally)
+- **JSP:** JSP Life Cycle, Directive elements, Scripting elements, Action elements, Implicit objects, Error handling, Accessing Bean using JSP, MVC Presentation View.
+- **XML:** XML, DTD, XML Schema (XSD), XSLT Transformation, DOM Parser, SAX Parser.
+
