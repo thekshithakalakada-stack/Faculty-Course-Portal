@@ -89,7 +89,11 @@ Faculty-Course-Portal/
 │   ├── courses.html                    # Static course directory with client-side search
 │   ├── addCourse.html                  # Static course creation form
 │   └── login.html                      # Static faculty authentication form
+├── docs/
+│   └── GIT_GUIDE.md                    # Comprehensive Git & version control guide
+├── git-demo-notes.txt                  # Demonstration notes file used for Git staging & branching
 ├── lib/                                # Tomcat Servlet & JSP compile-time APIs
+├── .gitignore                          # Git ignore rules for build artifacts & IDE metadata
 ├── README.md                           # Project documentation & execution guide
 └── SYLLABUS_MAPPING.md                 # 3-column syllabus-to-code viva evaluation reference
 ```
@@ -453,35 +457,154 @@ java -cp bin com.portal.xml.SAXParserDemo
 
 ---
 
-## 11. Git Version Control Workflow
+## 11. Git and Version Control
 
-This project is tracked using Git to demonstrate syllabus requirements for version control:
-
+### A. Git Installation Verification
+Git is installed and verified on this system:
 ```powershell
-# 1. Initialize local repository
-git init
-
-# 2. Check repository status
-git status
-
-# 3. Stage modified and newly created files
-git add .
-
-# 4. Commit changes with a descriptive message
-git commit -m "Implement Stage 5: XML Suite (DTD, XSD, XSLT, DOM, SAX)"
-
-# 5. Create and switch to main branch
-git branch -M main
-
-# 6. Add remote GitHub / GitLab repository (optional)
-git remote add origin https://github.com/your-username/Faculty-Course-Portal.git
-
-# 7. Push committed code to remote repository
-git push -u origin main
+git --version
+# Output: git version 2.54.0.windows.1
 ```
+
+### B. What is Version Control & Why is it Useful?
+* **Version Control:** A software system that tracks modifications made to source files over time. It stores successive project states in a cryptographically secured history.
+* **Why it is useful in Web Technologies:**
+  1. **Version History:** Maintains an exact record of every change, allowing developers to inspect who authored each change, when it occurred, and why.
+  2. **Safe Rollback & Recovery:** Enables reverting buggy code back to any previous working commit.
+  3. **Branching & Experimentation:** Developers can work on experimental features in isolated branches without endangering the stable codebase.
+  4. **Team Collaboration:** Enables multiple developers to work concurrently on frontend, backend, and database components without overwriting code.
+  5. **Backup & Synchronization:** Provides local copies of the entire project history and synchronization with remote servers.
+
+### C. What is Git vs. a Remote Repository?
+* **Git:** A free, open-source **Distributed Version Control System (DVCS)** that runs entirely on the developer's local machine. All operations (commit, branching, diff, log) execute locally without requiring network access.
+* **Remote Repository (e.g., GitHub, GitLab):** A central server or cloud hosting platform that hosts a remote copy of the Git repository for team synchronization, backup, and peer reviews.
+* **Key Distinction:** Git is the local software engine; GitHub/GitLab is a remote hosting service where Git repositories are published.
+
+### D. Basic Git Architecture & Workflow
+Git organizes file changes through three local areas before remote synchronization:
+
+```text
+Working Directory  ──( git add )──>  Staging Area (Index)  ──( git commit )──>  Local Repository (.git)  ──( git push )──>  Remote Repository
+       │                                     │                                         │
+ (Unstaged edits)                    (Staged changes)                       (Committed snapshots)
+```
+
+* **Working Directory:** The local folder where project source files (`.html`, `.css`, `.java`, `.xml`) are edited.
+* **Staging Area (Index):** An intermediate holding buffer where specific changes are curated and prepared before committing.
+* **Local Repository (`.git`):** The local database storing all committed snapshots, branches, and version history.
+* **Commit:** An immutable snapshot of the staged changes with a unique SHA-1 hash, author, timestamp, and message.
+* **Branch:** A lightweight movable pointer to a commit (e.g., `main`).
+* **HEAD:** Pointer referencing the currently checked-out branch and commit.
+* **Remote Repository:** The remote server copy (e.g., on GitHub) for synchronization.
+
+### E. Important Git Commands Reference
+
+| Command | Purpose | Example |
+| :--- | :--- | :--- |
+| `git init` | Initializes a new local Git repository in the current folder. | `git init` |
+| `git clone <url>` | Downloads an existing remote repository to local machine. | `git clone https://github.com/user/repo.git` |
+| `git status` | Displays working tree status (untracked, modified, staged files). | `git status` |
+| `git add <file>` | Stages a specific file for the next commit snapshot. | `git add WebContent/index.html` |
+| `git add .` | Stages all modified, new, and deleted files in the directory. | `git add .` |
+| `git commit -m "<msg>"` | Records staged snapshot into the local repository with a message. | `git commit -m "Implement Stage 5: XML Suite"` |
+| `git log` | Displays chronological commit history and hashes. | `git log --oneline -n 5` |
+| `git diff` | Shows line-level modifications between working tree and staging. | `git diff` |
+| `git branch` | Lists all local branches (* indicates active branch). | `git branch` |
+| `git switch -c <name>` | Creates a new branch and immediately checks it out. | `git switch -c git-demo` |
+| `git switch <name>` | Switches active branch to an existing branch. | `git switch main` |
+| `git checkout <name>` | Checks out an existing branch or restores working files. | `git checkout main` |
+| `git merge <branch>` | Merges commits from specified branch into current active branch. | `git merge git-demo` |
+| `git branch -d <name>` | Safely deletes a merged branch. | `git branch -d git-demo` |
+| `git remote` | Lists names of configured remote repositories. | `git remote` |
+| `git remote -v` | Displays remote names alongside their fetch/push URLs. | `git remote -v` |
+| `git remote add <name> <url>` | Associates a remote URL with a shortname (e.g., `origin`). | `git remote add origin <repository-url>` |
+| `git fetch` | Downloads commits and refs from remote without merging. | `git fetch origin` |
+| `git pull` | Fetches remote changes and immediately merges into current branch. | `git pull origin main` |
+| `git push -u <remote> <branch>` | Uploads local commits to remote repository and sets upstream. | `git push -u origin main` |
+
+### F. Staging Demonstration (Executed in Project)
+Staging allows selective inclusion of modified files into the next commit:
+1. Created harmless demonstration note: `git-demo-notes.txt`
+2. `git status` &rarr; Displayed `git-demo-notes.txt` under "Untracked files"
+3. `git add git-demo-notes.txt` &rarr; Moved file into staging index
+4. `git status` &rarr; Displayed under "Changes to be committed: new file: git-demo-notes.txt"
+5. `git commit -m "Demonstrate staging and commit on git-demo branch"` &rarr; Snapshot stored in repository
+6. `git log --oneline -n 2` &rarr; Verified commit hash and message in repository log
+
+### G. Branching & Merging Demonstration (Executed in Project)
+Isolated branch development was demonstrated and safely integrated:
+```text
+main branch (fe06801)
+  │
+  ├─── git switch -c git-demo
+  │         │
+  │         ├─── commit: "Demonstrate staging and commit on git-demo branch" (6267608)
+  │         │
+  ├─── git switch main
+  │
+  ├─── git merge git-demo (Fast-forward merge)
+  │
+  └─── git branch -d git-demo (Cleaned up temporary branch)
+```
+
+### H. Working with a Remote Repository (GitHub Instructions for Students)
+> **Note:** A remote repository is not configured by default. Do NOT push without replacing `<repository-url>` with your own repository URL.
+
+To connect this local repository to your GitHub account:
+1. Create a new empty repository on [GitHub](https://github.com) named `Faculty-Course-Portal` (do NOT initialize with README).
+2. Connect your local repository to GitHub:
+   ```powershell
+   git remote add origin <repository-url>
+   ```
+   *(Replace `<repository-url>` with your actual URL, e.g., `https://github.com/your-username/Faculty-Course-Portal.git`)*
+3. Verify remote linkage:
+   ```powershell
+   git remote -v
+   ```
+4. Push your local branches and commits to GitHub:
+   ```powershell
+   git push -u origin main
+   ```
+5. Routine remote operations:
+   * **`git pull origin main`**: Pull updates from team members before editing code.
+   * **`git push origin main`**: Push newly committed work to GitHub.
+
+### I. Team Collaboration Workflow
+In college group projects, students should follow the feature-branch collaboration pattern:
+1. **Developer A:**
+   * Runs `git pull origin main` to ensure local workspace is up to date.
+   * Creates feature branch: `git switch -c feature/course-filter`
+   * Edits and tests code.
+   * Stages and commits: `git add .` and `git commit -m "Add course type filtering"`
+   * Pushes feature branch: `git push -u origin feature/course-filter`
+2. **Developer B:**
+   * Fetches the branch: `git fetch origin`
+   * Switches to branch to test: `git switch feature/course-filter`
+   * Reviews changes, approves, and merges into `main` via Pull Request or local merge:
+     ```powershell
+     git switch main
+     git merge feature/course-filter
+     git push origin main
+     ```
 
 ---
 
-## 12. Syllabus Demonstration Quick Links
+## 12. Final Project Status & Architecture Summary
+
+| Architectural Layer | Technology Stack | Implementation Artifacts |
+| :--- | :--- | :--- |
+| **Frontend** | HTML5, CSS3, JavaScript (Vanilla ES6) | [WebContent/index.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/index.html), [courses.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/courses.html), [addCourse.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/addCourse.html), [login.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/login.html), [style.css](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/css/style.css), [script.js](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/js/script.js) |
+| **Database** | MySQL Server 8.0 | [database/setup.sql](file:///c:/Users/sivak/Faculty-Course-Portal/database/setup.sql) (DDL, tables, foreign keys, stored procedures, sample records) |
+| **Database Access** | Java JDBC (`java.sql.*`) | [DBConnection.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/util/DBConnection.java), [CourseDAO.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/dao/CourseDAO.java), [FacultyDAO.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/dao/FacultyDAO.java), [JDBCTest.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/test/JDBCTest.java) |
+| **Server / Controller** | Java Servlets (`javax.servlet.*`, `javax.servlet.http.*`) | [com.portal.controller.*](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/controller) (`LoginServlet`, `LogoutServlet`, `CourseServlet`, `AddCourseServlet`, `UpdateCourseServlet`, `DeleteCourseServlet`, `EditCourseServlet`, `DashboardServlet`), [web.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/web.xml) |
+| **Presentation / View** | JSP 2.3 (JavaServer Pages) | [WebContent/WEB-INF/views/*](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views) (`header.jsp`, `dashboard.jsp`, `courses.jsp`, `addCourse.jsp`, `editCourse.jsp`, `error.jsp`) |
+| **Software Architecture**| Pure MVC (Model-View-Controller) | Browser &rarr; Servlet Controller &rarr; DAO &rarr; JDBC &rarr; MySQL &rarr; JSP View |
+| **JavaBeans** | POJO models with private fields & getters/setters | [Course.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/model/Course.java), [Faculty.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/model/Faculty.java) |
+| **XML Suite** | XML, DTD, XSD, XSLT, DOM, SAX | [courses.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xml), [courses.dtd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.dtd), [courses.xsd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xsd), [courses.xsl](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xsl), [DOMParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/DOMParserDemo.java), [SAXParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/SAXParserDemo.java), [XMLTest.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/test/XMLTest.java) |
+| **Version Control** | Git 2.54.0 | Local Git repository with incremental commits across syllabus stages, staging demonstrated, branching demonstrated, and complete reference guide ([docs/GIT_GUIDE.md](file:///c:/Users/sivak/Faculty-Course-Portal/docs/GIT_GUIDE.md)). *(Remote repository: Not configured by default)* |
+
+---
+
+## 13. Syllabus Demonstration Quick Links
 
 For the exact file and method locations of every syllabus topic, refer to [SYLLABUS_MAPPING.md](file:///c:/Users/sivak/Faculty-Course-Portal/SYLLABUS_MAPPING.md).
