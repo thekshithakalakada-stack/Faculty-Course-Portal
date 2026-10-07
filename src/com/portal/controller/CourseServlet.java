@@ -70,10 +70,8 @@ public class CourseServlet extends HttpServlet {
         request.setAttribute("selectedKeyword", keyword != null ? keyword : "");
         request.setAttribute("selectedType", type != null ? type : "All");
 
-        // Forward to the presentation View layer:
-        // When Stage 4 (JSP) is added, this forwards directly to courses.jsp.
-        // For Stage 3, if courses.jsp is not yet present, forward safely to courses.html.
-        String targetView = "/courses.jsp";
+        // Forward to the presentation View layer (JSP View):
+        String targetView = "/WEB-INF/views/courses.jsp";
         if (getServletContext().getResource(targetView) == null) {
             targetView = "/courses.html";
         }

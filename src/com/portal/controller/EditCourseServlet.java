@@ -48,8 +48,8 @@ public class EditCourseServlet extends HttpServlet {
                 // Set Course model as request attribute for the View
                 request.setAttribute("course", course);
 
-                // Target edit JSP view for Stage 4; fallback to form with query parameter
-                String targetView = "/editCourse.jsp";
+                // Forward to protected JSP edit view
+                String targetView = "/WEB-INF/views/editCourse.jsp";
                 if (getServletContext().getResource(targetView) == null) {
                     targetView = "/addCourse.html?id=" + course.getCourseId();
                     response.sendRedirect(request.getContextPath() + targetView);

@@ -1,6 +1,7 @@
 package com.portal.controller;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +37,9 @@ public class AddCourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        // Redirect GET requests to the course creation form
-        response.sendRedirect(request.getContextPath() + "/addCourse.html");
+        // Forward GET requests to the JSP course creation form view
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourse.jsp");
+        dispatcher.forward(request, response);
     }
 
     @Override

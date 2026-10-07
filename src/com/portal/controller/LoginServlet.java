@@ -88,8 +88,8 @@ public class LoginServlet extends HttpServlet {
         // Check if user is already logged in via active session
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("facultyUser") != null) {
-            // Already authenticated, redirect to courses portal
-            response.sendRedirect(request.getContextPath() + "/courses");
+            // Already authenticated, redirect to faculty dashboard
+            response.sendRedirect(request.getContextPath() + "/dashboard");
             return;
         }
 
@@ -168,8 +168,8 @@ public class LoginServlet extends HttpServlet {
 
             System.out.println("[LoginServlet - Cookie Added] Cookie 'lastFacultyUser'=" + faculty.getUsername());
 
-            // 3. Redirection to Courses Controller
-            response.sendRedirect(request.getContextPath() + "/courses");
+            // 3. Redirection to Faculty Dashboard
+            response.sendRedirect(request.getContextPath() + "/dashboard");
 
         } else {
             // =========================================================

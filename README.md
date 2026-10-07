@@ -222,7 +222,139 @@ MySQL Relational Database (faculty_portal)
 
 ---
 
-## 8. Git Version Control Workflow
+## 8. JSP Presentation Layer & MVC Architecture
+
+### A. Limitations of Servlets & The Need for JSP
+In pure Servlet applications, generating dynamic HTML requires cumbersome procedural output statements:
+```java
+PrintWriter out = response.getWriter();
+out.println("<html><head><title>Courses</title></head>");
+out.println("<body><h1>Course Directory</h1>");
+out.println("<table><tr><td>" + course.getName() + "</td></tr></table>");
+out.println("</body></html>");
+```
+**Key Limitations of this approach:**
+1. **Poor Readability & Maintainability:** HTML is mixed inside Java strings, leading to compilation issues and escape character errors.
+2. **Violates Separation of Concerns:** Business logic and presentation markup are tightly coupled.
+3. **Frontend Designer Inaccessibility:** Web designers cannot style pages written inside Java classes.
+
+**The Solution — MVC Architecture:**
+* **Servlet = Controller:** Handles HTTP requests, session management, validation, and coordinates with DAOs.
+* **JavaBean = Model:** Encapsulates course and faculty data transfer objects (`Course`, `Faculty`).
+* **JSP = View:** HTML-centric presentation templates receiving request attributes and rendering formatted output.
+
+### B. JSP Lifecycle
+When a client requests a JSP page for the first time, Tomcat processes it through the following lifecycle stages:
+```text
+JSP Source File (.jsp)
+       ↓
+1. Translation Phase (Translated into a Java Servlet source file: _jsp.java)
+       ↓
+2. Compilation Phase (Compiled into bytecode: _jsp.class)
+       ↓
+3. Loading & Instantiation (Tomcat classloader loads the generated servlet)
+       ↓
+4. Initialization (Container invokes jspInit() once)
+       ↓
+5. Request Handling (Container invokes _jspService(request, response) for every request)
+       ↓
+6. Destruction (Container invokes jspDestroy() once before unloading)
+```
+
+### C. JSP Scripting Elements
+The project demonstrates all three standard scripting elements:
+1. **Declaration (`<%! ... %>`):**
+   Declares class-level methods and variables in the generated servlet:
+   ```jsp
+   <%!
+       public String getBadgeClass(String courseType) {
+           return courseType.contains("Lab") ? "badge badge-lab" : "badge badge-theory";
+       }
+   %>
+   ```
+2. **Scriptlet (`<% ... %>`):**
+   Embeds procedural Java logic executed inside the `_jspService()` method:
+   ```jsp
+   <%
+       List<Course> courses = (List<Course>) request.getAttribute("courseList");
+       for (Course c : courses) {
+   %>
+   ```
+3. **Expression (`<%= ... %>`):**
+   Evaluates a Java expression, converts it to a String, and writes it directly to the response output stream without a trailing semicolon:
+   ```jsp
+   <td><%= c.getCourseName() %></td>
+   ```
+
+### D. JSP Directive Elements
+Directives provide global instructions to the container regarding page translation:
+* **Page Directive (`<%@ page ... %>`):** Configures content type, error handling, and imports:
+  ```jsp
+  <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="error.jsp" %>
+  <%@ page import="com.portal.model.Course" %>
+  ```
+* **Include Directive (`<%@ include ... %>`):** Merges content from an external JSP file at translation time (static include):
+  ```jsp
+  <%@ include file="header.jsp" %>
+  ```
+
+### E. JSP Action Elements & JavaBean Access
+Actions are XML-style tags that execute dynamic request-time behavior:
+* **`<jsp:include page="..." />`:** Dynamically includes content at request execution time.
+* **`<jsp:useBean id="..." class="..." scope="..." />`:** Locates or instantiates a JavaBean:
+  ```jsp
+  <jsp:useBean id="facultyUser" class="com.portal.model.Faculty" scope="session" />
+  <jsp:useBean id="course" class="com.portal.model.Course" scope="request" />
+  ```
+* **`<jsp:getProperty name="..." property="..." />`:** Reads a bean property by automatically calling its getter:
+  ```jsp
+  <jsp:getProperty name="facultyUser" property="fullName" />
+  <jsp:getProperty name="course" property="courseName" />
+  ```
+
+### F. JSP Implicit Objects
+Demonstrated inside [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp):
+1. `request` (`HttpServletRequest`) - HTTP query parameters, headers, and request attributes.
+2. `response` (`HttpServletResponse`) - Content type, status codes, and cookies.
+3. `session` (`HttpSession`) - Tracks user authentication and profile across requests.
+4. `application` (`ServletContext`) - Application-scope context attributes and web server info.
+5. `out` (`JspWriter`) - Response character stream writer (`out.print()`).
+6. `config` (`ServletConfig`) - Servlet configuration and init parameters.
+7. `pageContext` (`PageContext`) - Unified access to all page scopes and attributes.
+8. `page` (`Object`) - Reference to the current servlet instance.
+9. `exception` (`Throwable`) - Captured error object available only on pages with `<%@ page isErrorPage="true" %>`.
+
+### G. JSP Error Handling Flow
+When an uncaught exception occurs during view rendering:
+```text
+courses.jsp / addCourse.jsp (configured with errorPage="error.jsp")
+       ↓ (Throws Exception)
+Tomcat redirects to error.jsp (configured with isErrorPage="true")
+       ↓
+error.jsp renders user-friendly recovery UI using the 'exception' implicit object
+(Sensitive passwords, DB credentials, and raw stack traces are suppressed for security)
+```
+
+### H. Database Access Flow Using JSP (MVC Pattern)
+```text
+1. Browser requests /courses
+       ↓
+2. CourseServlet intercepts request (Controller)
+       ↓
+3. CourseDAO executes SQL query via PreparedStatement (Model/DAO)
+       ↓
+4. CourseDAO returns List<Course> JavaBeans
+       ↓
+5. CourseServlet sets request.setAttribute("courseList", courses)
+       ↓
+6. RequestDispatcher forwards to /WEB-INF/views/courses.jsp
+       ↓
+7. courses.jsp iterates the list and renders the HTML table (View)
+```
+
+---
+
+## 9. Git Version Control Workflow
 
 This project is tracked using Git to demonstrate syllabus requirements for version control:
 
@@ -237,7 +369,7 @@ git status
 git add .
 
 # 4. Commit changes with a descriptive message
-git commit -m "Implement Stage 3: Servlet Backend and web.xml deployment descriptor"
+git commit -m "Implement Stage 4: JSP Views, MVC integration, and error handling"
 
 # 5. Create and switch to main branch
 git branch -M main
@@ -251,6 +383,6 @@ git push -u origin main
 
 ---
 
-## 9. Syllabus Demonstration Quick Links
+## 10. Syllabus Demonstration Quick Links
 
 For the exact file and method locations of every syllabus topic, refer to [SYLLABUS_MAPPING.md](file:///c:/Users/sivak/Faculty-Course-Portal/SYLLABUS_MAPPING.md).

@@ -120,12 +120,40 @@
     </servlet-mapping>
 
     <!-- =============================================================== -->
+    <!-- 8. DASHBOARD SERVLET CONFIGURATION                              -->
+    <!-- =============================================================== -->
+    <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>com.portal.controller.DashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- =============================================================== -->
     <!-- SESSION TIMEOUT CONFIGURATION                                   -->
     <!-- Inactivity timeout in minutes                                   -->
     <!-- =============================================================== -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+    <!-- =============================================================== -->
+    <!-- ERROR PAGE CONFIGURATION (JSP Error Handling Demonstration)     -->
+    <!-- =============================================================== -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/WEB-INF/views/error.jsp</location>
+    </error-page>
 
     <!-- =============================================================== -->
     <!-- WELCOME FILE LIST                                               -->

@@ -81,7 +81,26 @@ This document provides a comprehensive mapping between the **College Web Technol
 
 ---
 
-## 5. Upcoming Stages (To Be Implemented Incrementally)
-- **JSP:** JSP Life Cycle, Directive elements, Scripting elements, Action elements, Implicit objects, Error handling, Accessing Bean using JSP, MVC Presentation View.
-- **XML:** XML, DTD, XML Schema (XSD), XSLT Transformation, DOM Parser, SAX Parser.
+## 5. JSP Syllabus Mapping
+
+| Syllabus Topic | File / Resource | Implementation & Demonstration Details |
+| :--- | :--- | :--- |
+| **Limitations of Servlet** | [README.md](file:///c:/Users/sivak/Faculty-Course-Portal/README.md), [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp) | Explains and demonstrates replacing cumbersome Servlet HTML printing (`out.println("<html>...")`) with clean HTML-centric JSP templates separating presentation from business logic. |
+| **JSP Life Cycle** | [README.md](file:///c:/Users/sivak/Faculty-Course-Portal/README.md), [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp) | Documents complete container lifecycle: Translation (`.jsp` -> `.java`), Compilation (`.java` -> `.class`), Class Loading, `jspInit()`, `_jspService()`, and `jspDestroy()`. |
+| **Scripting Elements: Declaration** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L20-L31), [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp#L21-L34) | `<%! ... %>` declaring class-level helper methods (`getGreetingMessage()`, `getBadgeClass()`) in the generated servlet class. |
+| **Scripting Elements: Scriptlet** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L33-L44), [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp#L115-L125) | `<% ... %>` containing Java code placed inside `_jspService()` for session validation, request attribute extraction, and list iteration loops. |
+| **Scripting Elements: Expression** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L62), [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp#L128-L135) | `<%= ... %>` evaluating and directly printing Java expressions to the output stream without semicolons (e.g. `<%= c.getCourseName() %>`, `<%= c.getCredits() %>`). |
+| **Directive Elements: Page** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L1), [error.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/error.jsp#L1) | `<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="error.jsp" %>` and `<%@ page isErrorPage="true" %>` defining page environment attributes. |
+| **Directive Elements: Include** | [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp#L45), [addCourse.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/addCourse.jsp#L23), [editCourse.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/editCourse.jsp#L24) | `<%@ include file="header.jsp" %>` statically including the navigation header view fragment at translation time. |
+| **Action Elements: Standard Actions** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L57), [editCourse.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/editCourse.jsp#L16) | `<jsp:include page="header.jsp" />` demonstrating dynamic request-time inclusion contrasting with static `<%@ include %>`. |
+| **JSP Implicit Objects** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L104-L162), [error.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/error.jsp#L35) | All 9 implicit objects demonstrated: `request`, `response`, `session`, `application`, `out`, `config`, `pageContext`, `page`, and `exception` (in `error.jsp`). |
+| **JSP Error Handling** | [error.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/error.jsp), [web.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/web.xml#L133-L144) | Demonstrates `<%@ page errorPage="error.jsp" %>` forwarding uncaught exceptions to `error.jsp` (`<%@ page isErrorPage="true" %>`), extracting exception messages via the `exception` implicit object while protecting credentials. |
+| **Accessing Bean Using JSP** | [dashboard.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/dashboard.jsp#L48-L86), [editCourse.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/editCourse.jsp#L16-L45) | Demonstrates `<jsp:useBean id="facultyUser" class="com.portal.model.Faculty" scope="session" />` and `<jsp:getProperty name="facultyUser" property="fullName" />`, and `<jsp:useBean id="course" class="com.portal.model.Course" scope="request" />`. |
+| **Database Access Using JSP** | [courses.jsp](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views/courses.jsp) | Pure MVC: Database access is coordinated by `CourseServlet` via `CourseDAO` and `DBConnection`, passing results to `courses.jsp` via `request.getAttribute("courseList")`. No raw SQL inside JSP. |
+| **MVC Architecture (View Layer)** | [WebContent/WEB-INF/views/*](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/WEB-INF/views) | JSP files placed under `WEB-INF/views/` acting exclusively as the presentation View, protected from direct browser access and accessed solely through Servlet Controllers. |
+
+---
+
+## 6. Upcoming Stages (To Be Implemented Incrementally)
+- **XML:** XML structure, DTD validation, XML Schema (XSD) validation, XSLT Transformation, DOM Parser, SAX Parser.
 
