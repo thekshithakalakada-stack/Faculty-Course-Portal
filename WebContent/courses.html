@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - Faculty Course Management Portal</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>Faculty Course Management Portal</h1>
+        <p>Faculty Course Directory & Management</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="addCourse.html">Add Course</a>
+        <a href="login.html">Login</a>
+    </nav>
+
+    <main>
+
+        <!-- INTRO & ACTIONS SECTION -->
+        <section>
+            <h2>Department Course Directory</h2>
+            <p>
+                Browse, search, and manage registered courses. Use the live filter below to instantly search by Course ID, Course Name, or Faculty in charge.
+            </p>
+            <p>
+                <strong>Quick Links:</strong>
+                <a href="addCourse.html" class="btn btn-edit">+ Add New Course</a>
+                <a href="index.html" class="btn btn-secondary">&larr; Back to Home</a>
+            </p>
+        </section>
+
+        <!-- SEARCH AND FILTER CONTROLS -->
+        <section>
+            <h2>Search and Filter Courses</h2>
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="courseSearchInput">Search:</label>
+                    <input
+                        type="search"
+                        id="courseSearchInput"
+                        placeholder="Filter by ID, name, or faculty..."
+                        oninput="filterCoursesTable()">
+                </div>
+
+                <div class="filter-group">
+                    <label for="typeFilter">Type:</label>
+                    <select id="typeFilter" onchange="filterCoursesTable()">
+                        <option value="All">All Course Types</option>
+                        <option value="Theory">Theory</option>
+                        <option value="Lab">Laboratory</option>
+                        <option value="Theory and Lab">Theory and Lab</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-reset" onclick="resetFilters()">Reset Filter</button>
+
+                <div class="course-count-badge" id="courseCount">
+                    Showing 6 of 6 courses
+                </div>
+            </div>
+
+            <!-- COURSES HTML TABLE -->
+            <div style="overflow-x: auto;">
+                <table id="coursesTable">
+                    <caption>Table 2: Department Registered Courses and Details</caption>
+                    <thead>
+                        <tr>
+                            <th>Course ID</th>
+                            <th>Course Name</th>
+                            <th>Faculty</th>
+                            <th>Credits</th>
+                            <th>Course Type</th>
+                            <th>Level</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="row-C101">
+                            <td><strong>C101</strong></td>
+                            <td>Web Technologies</td>
+                            <td>Dr. Rao</td>
+                            <td>4</td>
+                            <td><span class="badge badge-both">Theory and Lab</span></td>
+                            <td>UG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C101')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C101', this)">Delete</button>
+                                    <a href="addCourse.html?id=C101" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="row-C102">
+                            <td><strong>C102</strong></td>
+                            <td>Database Management</td>
+                            <td>Dr. Kumar</td>
+                            <td>4</td>
+                            <td><span class="badge badge-both">Theory and Lab</span></td>
+                            <td>UG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C102')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C102', this)">Delete</button>
+                                    <a href="addCourse.html?id=C102" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="row-C103">
+                            <td><strong>C103</strong></td>
+                            <td>Java Programming</td>
+                            <td>Dr. Sharma</td>
+                            <td>3</td>
+                            <td><span class="badge badge-theory">Theory</span></td>
+                            <td>UG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C103')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C103', this)">Delete</button>
+                                    <a href="addCourse.html?id=C103" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="row-C104">
+                            <td><strong>C104</strong></td>
+                            <td>Computer Networks</td>
+                            <td>Prof. Ananya</td>
+                            <td>3</td>
+                            <td><span class="badge badge-theory">Theory</span></td>
+                            <td>UG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C104')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C104', this)">Delete</button>
+                                    <a href="addCourse.html?id=C104" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="row-C105">
+                            <td><strong>C105</strong></td>
+                            <td>Operating Systems Lab</td>
+                            <td>Dr. Verma</td>
+                            <td>2</td>
+                            <td><span class="badge badge-lab">Lab</span></td>
+                            <td>UG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C105')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C105', this)">Delete</button>
+                                    <a href="addCourse.html?id=C105" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="row-C106">
+                            <td><strong>C106</strong></td>
+                            <td>Cloud Computing Architecture</td>
+                            <td>Dr. Rao</td>
+                            <td>4</td>
+                            <td><span class="badge badge-both">Theory and Lab</span></td>
+                            <td>PG</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-edit" onclick="editCourse('C106')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="deleteCourseRow('C106', this)">Delete</button>
+                                    <a href="addCourse.html?id=C106" title="View details">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- NO RESULTS NOTIFICATION -->
+            <p id="noResultsMsg" style="display: none; text-align: center; color: #dc2626; font-weight: bold; padding: 20px; background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; margin-top: 15px;">
+                No courses match the specified search or filter criteria.
+            </p>
+        </section>
+
+        <!-- SYLLABUS LINKS AND REFERENCES -->
+        <section>
+            <h2>Syllabus Coverage: Table, Links & Scripting</h2>
+            <ul>
+                <li><strong>HTML Tables:</strong> Utilizes <code>table</code>, <code>caption</code>, <code>thead</code>, <code>tbody</code>, <code>tr</code>, <code>th</code>, <code>td</code>.</li>
+                <li><strong>Hyperlinks:</strong> Demonstrates relative navigation links and action links.</li>
+                <li><strong>Client-Side Filter:</strong> Demonstrates real-time JavaScript search by string manipulation and DOM traversal.</li>
+                <li><strong>UI Action Buttons:</strong> Interactive Edit and Delete triggers with confirmation dialogs.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Faculty Course Management Portal</p>
+        <p>SDG 4 - Quality Education</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

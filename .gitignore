@@ -1,0 +1,23 @@
+# Compiled Java class files
+bin/
+*.class
+
+# Package Files
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Eclipse / IDE metadata
+.settings/
+.project
+.classpath
+
+# IntelliJ IDEA metadata
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db

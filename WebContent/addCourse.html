@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Course - Faculty Portal</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>Faculty Course Management Portal</h1>
+
+        <p>Add New Course</p>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="courses.html">Courses</a>
+
+        <a href="addCourse.html">Add Course</a>
+
+        <a href="login.html">Login</a>
+
+    </nav>
+
+
+    <main>
+
+        <section>
+
+            <h2>Add New Course</h2>
+
+            <p>
+                Enter the details of the new course
+                below.
+            </p>
+
+
+            <!-- COURSE FORM -->
+
+            <form
+                id="courseForm"
+                action="addCourse"
+                method="post"
+                onsubmit="return validateCourse()">
+
+                <!-- FIELDSET 1: Basic Course Information -->
+                <fieldset>
+                    <legend>Basic Course Details</legend>
+
+                    <!-- COURSE ID -->
+                    <label for="courseId">
+                        Course ID <span style="color: red;">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="courseId"
+                        name="courseId"
+                        placeholder="Example: C101"
+                        required>
+
+                    <!-- COURSE NAME -->
+                    <label for="courseName">
+                        Course Name <span style="color: red;">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="courseName"
+                        name="courseName"
+                        placeholder="Enter course name"
+                        required>
+
+                    <!-- FACULTY -->
+                    <label for="faculty">
+                        Faculty Name <span style="color: red;">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="faculty"
+                        name="faculty"
+                        placeholder="Enter faculty name"
+                        required>
+
+                    <!-- CREDITS -->
+                    <label for="credits">
+                        Credits (1 - 6) <span style="color: red;">*</span>
+                    </label>
+                    <input
+                        type="number"
+                        id="credits"
+                        name="credits"
+                        min="1"
+                        max="6"
+                        placeholder="1 - 6"
+                        required>
+                </fieldset>
+
+                <!-- FIELDSET 2: Classification and Settings -->
+                <fieldset>
+                    <legend>Course Classification & Attributes</legend>
+
+                    <!-- COURSE TYPE (Select / Dropdown) -->
+                    <label for="courseType">
+                        Course Delivery Mode <span style="color: red;">*</span>
+                    </label>
+                    <select
+                        id="courseType"
+                        name="courseType"
+                        required>
+                        <option value="">
+                            -- Select Course Type --
+                        </option>
+                        <option value="Theory">
+                            Theory
+                        </option>
+                        <option value="Lab">
+                            Laboratory
+                        </option>
+                        <option value="Theory and Lab">
+                            Theory and Lab
+                        </option>
+                    </select>
+
+                    <!-- RADIO BUTTONS: Academic Level -->
+                    <label>Academic Level</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="courseLevel" value="Undergraduate" checked>
+                            Undergraduate (UG)
+                        </label>
+                        <label>
+                            <input type="radio" name="courseLevel" value="Postgraduate">
+                            Postgraduate (PG)
+                        </label>
+                    </div>
+
+                    <!-- CHECKBOXES: Course Attributes -->
+                    <label>Subject Attributes</label>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="isCore" value="Core" checked>
+                            Core Requirement
+                        </label>
+                        <label>
+                            <input type="checkbox" name="hasLabProject" value="LabProject">
+                            Capstone / Mini Project
+                        </label>
+                    </div>
+
+                    <!-- DESCRIPTION (Textarea) -->
+                    <label for="description">
+                        Course Syllabus Description
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="4"
+                        placeholder="Enter course objectives and syllabus summary..."
+                        required></textarea>
+                </fieldset>
+
+                <!-- SUBMIT AND RESET BUTTONS -->
+                <div class="form-actions">
+                    <button type="submit" class="btn">
+                        Add Course
+                    </button>
+                    <button type="reset" class="btn btn-reset">
+                        Reset Form
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- FORM INFORMATION -->
+
+        <section>
+
+            <h2>Course ID Format</h2>
+
+            <p>
+                Course ID should follow this format:
+            </p>
+
+            <p>
+                <strong>C101</strong>,
+                <strong>C102</strong>,
+                <strong>C103</strong>
+                etc.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            Faculty Course Management Portal
+        </p>
+
+        <p>
+            SDG 4 - Quality Education
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

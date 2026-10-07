@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Faculty Course Management Portal</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Internal CSS - syllabus demonstration -->
+    <style>
+        .internal-style {
+            color: #1d4ed8;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <h1>Faculty Course Management Portal</h1>
+
+        <p>
+            Faculty Course Management System
+        </p>
+
+    </header>
+
+
+    <!-- NAVIGATION -->
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="courses.html">Courses</a>
+
+        <a href="addCourse.html">Add Course</a>
+
+        <a href="login.html">Login</a>
+
+    </nav>
+
+
+    <main>
+
+        <!-- INTRODUCTION -->
+        <section>
+
+            <h2>Welcome to the Portal</h2>
+
+            <p>
+                This portal helps faculty members
+                manage and view their courses.
+            </p>
+
+            <!-- Internal CSS Demonstration (styled via .internal-style in head) -->
+            <p class="internal-style">
+                Internal CSS: HTML, CSS, JavaScript, XML, JDBC, Servlets, and JSP Demonstration
+            </p>
+
+            <!-- Inline CSS Demonstration (styled via inline style attribute) -->
+            <p style="color: #065f46; background-color: #d1fae5; padding: 12px; border-left: 5px solid #059669; border-radius: 4px; font-weight: bold; margin-top: 15px;">
+                Inline CSS Demonstration: Quality Education and Academic Course Administration (SDG 4)
+            </p>
+
+        </section>
+
+
+        <!-- IMAGE -->
+        <section>
+
+            <h2>College Information</h2>
+
+            <img src="images/college.jpg"
+                 alt="College Campus"
+                 width="500">
+
+        </section>
+
+
+        <!-- LISTS -->
+        <section>
+
+            <h2>Portal Features and Academic Terms</h2>
+
+            <h3>Available Features (Unordered List - ul)</h3>
+
+            <ul>
+
+                <li>View Courses</li>
+
+                <li>Add Courses</li>
+
+                <li>Update Courses</li>
+
+                <li>Delete Courses</li>
+
+                <li>Faculty Login</li>
+
+            </ul>
+
+
+            <h3>How to Use (Ordered List - ol)</h3>
+
+            <ol>
+
+                <li>Login as Faculty</li>
+
+                <li>Open Course Management</li>
+
+                <li>Add or Update Course</li>
+
+                <li>View Course Details</li>
+
+            </ol>
+
+
+            <h3>Academic Terminology (Definition List - dl)</h3>
+
+            <dl>
+
+                <dt><strong>Credit Hour</strong></dt>
+                <dd>A standard unit of measure representing 50-60 minutes of lecture or 2 hours of laboratory work per week.</dd>
+
+                <dt><strong>Core Course</strong></dt>
+                <dd>A compulsory course that every student enrolled in the programme must successfully complete.</dd>
+
+                <dt><strong>Elective Course</strong></dt>
+                <dd>A specialized course chosen by students according to their academic interest and career path.</dd>
+
+            </dl>
+
+        </section>
+
+
+        <!-- COURSE PREVIEW TABLE -->
+        <section>
+
+            <h2>Course Preview</h2>
+
+            <table>
+
+                <caption>Table 1: Department Registered Courses Preview</caption>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Course ID</th>
+
+                        <th>Course Name</th>
+
+                        <th>Faculty</th>
+
+                        <th>Credits</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>C101</td>
+
+                        <td>Web Technologies</td>
+
+                        <td>Dr. Rao</td>
+
+                        <td>4</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>C102</td>
+
+                        <td>Database Management</td>
+
+                        <td>Dr. Kumar</td>
+
+                        <td>4</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>C103</td>
+
+                        <td>Java Programming</td>
+
+                        <td>Dr. Sharma</td>
+
+                        <td>3</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- LINKS -->
+        <section>
+
+            <h2>Quick Links</h2>
+
+            <p>
+
+                <a href="courses.html">
+                    View All Courses
+                </a>
+
+            </p>
+
+            <p>
+
+                <a href="addCourse.html">
+                    Add New Course
+                </a>
+
+            </p>
+
+        </section>
+
+
+        <!-- IFRAME / FRAME CONCEPT -->
+        <section>
+
+            <h2>Course Page Preview</h2>
+
+            <p>
+                The iframe below demonstrates the
+                HTML frame concept.
+            </p>
+
+            <iframe
+                src="courses.html"
+                width="100%"
+                height="300"
+                title="Course Preview">
+
+            </iframe>
+
+        </section>
+
+
+        <!-- HTML MEDIA -->
+        <section>
+
+            <h2>HTML Media</h2>
+
+            <h3>College Video</h3>
+
+            <video width="500" controls>
+
+                <source src="media/college.mp4"
+                        type="video/mp4">
+
+                Your browser does not support video.
+
+            </video>
+
+
+            <h3>Course Audio</h3>
+
+            <audio controls>
+
+                <source src="media/lecture.mp3"
+                        type="audio/mpeg">
+
+                Your browser does not support audio.
+
+            </audio>
+
+        </section>
+
+
+        <!-- HTML GRAPHICS -->
+        <section>
+
+            <h2>HTML Graphics</h2>
+
+            <h3>Canvas</h3>
+
+            <canvas id="courseCanvas"
+                    width="500"
+                    height="180">
+
+            </canvas>
+
+
+            <h3>SVG</h3>
+
+            <svg width="500"
+                 height="150">
+
+                <circle
+                    cx="100"
+                    cy="75"
+                    r="50"
+                    fill="steelblue">
+
+                </circle>
+
+                <rect
+                    x="200"
+                    y="35"
+                    width="150"
+                    height="80"
+                    fill="lightgreen">
+
+                </rect>
+
+            </svg>
+
+        </section>
+
+
+        <!-- CURRENT DATE -->
+        <section>
+
+            <h2>Today's Date</h2>
+
+            <p id="date">
+                Loading date...
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            Faculty Course Management Portal
+        </p>
+
+        <p>
+            SDG 4 - Quality Education
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
