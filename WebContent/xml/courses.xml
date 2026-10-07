@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="courses.xsl"?>
+<!DOCTYPE courses SYSTEM "courses.dtd">
+<!-- ===================================================================
+     XML DOCUMENT: courses.xml
+     
+     Syllabus Demonstration:
+       1. Introduction to XML:
+          - Well-formed XML Document (Prolog, Root, Elements, Attributes)
+       2. DTD Integration:
+          - <!DOCTYPE courses SYSTEM "courses.dtd">
+       3. XML Schema (XSD) Integration:
+          - xsi:noNamespaceSchemaLocation="courses.xsd"
+       4. XSLT Integration:
+          - <?xml-stylesheet type="text/xsl" href="courses.xsl"?>
+     =================================================================== -->
+<courses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="courses.xsd"
+         department="Computer Science &amp; Engineering"
+         academicYear="2026-2027">
+
+    <!-- Course 1 -->
+    <course id="C101">
+        <courseId>C101</courseId>
+        <courseName>Web Technologies</courseName>
+        <faculty>Dr. Rao</faculty>
+        <credits>4</credits>
+        <courseType>Theory and Lab</courseType>
+        <academicLevel>Undergraduate</academicLevel>
+        <description>Comprehensive study of client-side markup, cascading styling, client scripting, XML transformations, JDBC database connectivity, Servlets, and JSP presentation layer.</description>
+    </course>
+
+    <!-- Course 2 -->
+    <course id="C102">
+        <courseId>C102</courseId>
+        <courseName>Database Management Systems</courseName>
+        <faculty>Dr. Kumar</faculty>
+        <credits>4</credits>
+        <courseType>Theory and Lab</courseType>
+        <academicLevel>Undergraduate</academicLevel>
+        <description>Relational data modeling, SQL queries, relational algebra, normal forms (1NF to BCNF), transaction processing, ACID properties, and indexing techniques.</description>
+    </course>
+
+    <!-- Course 3 -->
+    <course id="C103">
+        <courseId>C103</courseId>
+        <courseName>Java Programming</courseName>
+        <faculty>Dr. Sharma</faculty>
+        <credits>3</credits>
+        <courseType>Theory</courseType>
+        <academicLevel>Undergraduate</academicLevel>
+        <description>Object-oriented concepts, inheritance, polymorphism, abstract classes, interfaces, exception handling, multithreading, and collections framework.</description>
+    </course>
+
+    <!-- Course 4 -->
+    <course id="C104">
+        <courseId>C104</courseId>
+        <courseName>Computer Networks</courseName>
+        <faculty>Prof. Ananya</faculty>
+        <credits>3</credits>
+        <courseType>Theory</courseType>
+        <academicLevel>Undergraduate</academicLevel>
+        <description>Network architectures, OSI reference model, TCP/IP protocol suite, sliding window protocols, routing algorithms, and transport layer protocols.</description>
+    </course>
+
+    <!-- Course 5 -->
+    <course id="C105">
+        <courseId>C105</courseId>
+        <courseName>Operating Systems Lab</courseName>
+        <faculty>Dr. Verma</faculty>
+        <credits>2</credits>
+        <courseType>Lab</courseType>
+        <academicLevel>Undergraduate</academicLevel>
+        <description>Hands-on UNIX shell scripting, system calls, CPU scheduling simulations, inter-process communication, semaphores, and memory management algorithms.</description>
+    </course>
+
+    <!-- Course 6 -->
+    <course id="C106">
+        <courseId>C106</courseId>
+        <courseName>Cloud Computing Architecture</courseName>
+        <faculty>Dr. Rao</faculty>
+        <credits>4</credits>
+        <courseType>Theory and Lab</courseType>
+        <academicLevel>Postgraduate</academicLevel>
+        <description>Advanced cloud computing paradigms, virtualization techniques, containerization, cloud storage architectures, and serverless computing.</description>
+    </course>
+
+</courses>

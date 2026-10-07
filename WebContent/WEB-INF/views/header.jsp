@@ -15,5 +15,6 @@
     <a href="<%= request.getContextPath() %>/dashboard">Dashboard</a>
     <a href="<%= request.getContextPath() %>/courses">Courses</a>
     <a href="<%= request.getContextPath() %>/addCourse">Add Course</a>
+    <a href="<%= request.getContextPath() %>/xml/courses_transformed.html" target="_blank">XML Catalog</a>
     <a href="<%= request.getContextPath() %>/logout">Logout</a>
 </nav>

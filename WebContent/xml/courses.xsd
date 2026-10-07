@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================
+     XML SCHEMA DEFINITION: courses.xsd
+     
+     Syllabus Demonstration:
+       - XML Schema (XSD)
+       - Target namespace and standard xs namespace
+       - Complex types and element sequences
+       - Built-in data types (xs:string, xs:integer)
+       - Facets & Restrictions:
+           * Pattern restriction (Course ID format: C101)
+           * Numeric range restriction (Credits: 1 to 6)
+           * Enumeration restriction (Course types and levels)
+     =================================================================== -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+    <!-- ROOT ELEMENT: courses -->
+    <xs:element name="courses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="course" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <!-- Course ID: Must follow pattern C followed by 3 digits (e.g. C101) -->
+                            <xs:element name="courseId">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:pattern value="C[0-9]{3}"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Course Name: Minimum 2 characters -->
+                            <xs:element name="courseName">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="2"/>
+                                        <xs:maxLength value="100"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Faculty: Minimum 2 characters -->
+                            <xs:element name="faculty">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="2"/>
+                                        <xs:maxLength value="100"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Credits: Numeric restriction between 1 and 6 -->
+                            <xs:element name="credits">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:integer">
+                                        <xs:minInclusive value="1"/>
+                                        <xs:maxInclusive value="6"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Course Type: Enumeration of allowed delivery modes -->
+                            <xs:element name="courseType">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Theory"/>
+                                        <xs:enumeration value="Lab"/>
+                                        <xs:enumeration value="Theory and Lab"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Academic Level: Enumeration restriction -->
+                            <xs:element name="academicLevel">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Undergraduate"/>
+                                        <xs:enumeration value="Postgraduate"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+
+                            <!-- Description: String -->
+                            <xs:element name="description" type="xs:string"/>
+                        </xs:sequence>
+
+                        <!-- Attribute: id of type xs:ID (Must be unique within document) -->
+                        <xs:attribute name="id" type="xs:ID" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+
+            <!-- Optional Attributes on root element -->
+            <xs:attribute name="department" type="xs:string" use="optional"/>
+            <xs:attribute name="academicYear" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

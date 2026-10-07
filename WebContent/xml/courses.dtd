@@ -1,0 +1,31 @@
+<!-- ===================================================================
+     DOCUMENT TYPE DEFINITION: courses.dtd
+     
+     Syllabus Demonstration:
+       - Introduction to XML Data Grammar
+       - DTD Structure & Rules
+       - ELEMENT Declarations (Hierarchical containment and #PCDATA)
+       - ATTLIST Attribute Declarations (#REQUIRED, #IMPLIED)
+     =================================================================== -->
+
+<!-- Root Element: courses contains one or more course elements -->
+<!ELEMENT courses (course+)>
+<!ATTLIST courses
+    department CDATA #IMPLIED
+    academicYear CDATA #IMPLIED
+    xmlns:xsi CDATA #IMPLIED
+    xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
+
+<!-- Child Element: course represents a single course offering -->
+<!ELEMENT course (courseId, courseName, faculty, credits, courseType, academicLevel, description)>
+<!ATTLIST course
+    id ID #REQUIRED>
+
+<!-- Sub-elements: All contain Parsed Character Data (#PCDATA) -->
+<!ELEMENT courseId (#PCDATA)>
+<!ELEMENT courseName (#PCDATA)>
+<!ELEMENT faculty (#PCDATA)>
+<!ELEMENT credits (#PCDATA)>
+<!ELEMENT courseType (#PCDATA)>
+<!ELEMENT academicLevel (#PCDATA)>
+<!ELEMENT description (#PCDATA)>

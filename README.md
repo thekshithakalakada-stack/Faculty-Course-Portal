@@ -22,6 +22,9 @@ The **Faculty Course Management Portal** enables college faculty members to:
 * **JavaScript**: Client-side scripting, ES6 variables (`let`, `const`, `var`), objects (`String`, `Array`, `Date`, `Math`, `RegExp`), event handling, error handling, form validation, dynamic table filtering.
 * **Java (Standard Edition)**: Plain Java models (JavaBeans) and Data Access Objects (DAOs).
 * **JDBC (`java.sql.*`)**: Database connectivity, `DriverManager`, `PreparedStatement` CRUD, `Statement` static queries, `CallableStatement` stored procedure execution, `ResultSetMetaData` schema inspection.
+* **Servlets (`javax.servlet.*`, `javax.servlet.http.*`)**: Server-side request controllers, servlet lifecycle, session tracking, cookies, redirection, dispatching.
+* **JSP (JavaServer Pages 2.3)**: MVC presentation layer, directives (`page`, `include`), scripting elements (`declaration`, `scriptlet`, `expression`), action tags (`jsp:include`, `jsp:useBean`, `jsp:getProperty`), 9 implicit objects, error handling.
+* **XML Suite**: Well-formed XML, DTD grammar validation, W3C XML Schema (XSD) facets/restrictions, XSLT styling transformation, DOM Parser (`DocumentBuilder`), SAX Parser (`DefaultHandler`).
 * **MySQL**: Relational database engine, schema design, constraints, and stored procedures.
 * **Git**: Distributed version control system.
 
@@ -44,8 +47,21 @@ Faculty-Course-Portal/
 │           ├── dao/
 │           │   ├── CourseDAO.java      # CRUD operations + Statement + CallableStatement + ResultSetMetaData
 │           │   └── FacultyDAO.java     # Faculty authentication DAO
+│           ├── controller/             # Servlet Controller Layer (MVC)
+│           │   ├── LoginServlet.java   # Authentication, session & cookie management
+│           │   ├── LogoutServlet.java  # Session invalidation & redirect
+│           │   ├── CourseServlet.java  # Reads courses via DAO, forwards to courses.jsp
+│           │   ├── AddCourseServlet.java # Course creation & validation
+│           │   ├── UpdateCourseServlet.java # Course updates
+│           │   ├── DeleteCourseServlet.java # Course deletion
+│           │   ├── EditCourseServlet.java   # Pre-populates edit form
+│           │   └── DashboardServlet.java    # Faculty protected dashboard
+│           ├── xml/                    # XML Parsing Demonstration Layer
+│           │   ├── DOMParserDemo.java  # DOM Parser (Tree-based DocumentBuilder)
+│           │   └── SAXParserDemo.java  # SAX Parser (Event-driven DefaultHandler)
 │           └── test/
-│               └── JDBCTest.java       # Standalone terminal runner to test & demonstrate all JDBC topics
+│               ├── JDBCTest.java       # Standalone terminal runner for JDBC topics
+│               └── XMLTest.java        # Standalone terminal runner for XML suite & XSD validation
 ├── WebContent/
 │   ├── css/
 │   │   └── style.css                   # External stylesheet demonstrating selectors & properties
@@ -53,12 +69,27 @@ Faculty-Course-Portal/
 │   │   └── college.jpg                 # College campus photograph for <img> tag demonstration
 │   ├── js/
 │   │   └── script.js                   # Client-side JavaScript logic, validation & filtering
-│   ├── WEB-INF/                        # Web configuration folder (for upcoming Servlets/JSP)
-│   ├── xml/                            # XML data folder (for upcoming XML/DTD/XSD/XSLT)
+│   ├── xml/                            # XML Suite Files
+│   │   ├── courses.xml                 # XML course catalog data file
+│   │   ├── courses.dtd                 # Document Type Definition grammar
+│   │   ├── courses.xsd                 # XML Schema Definition with constraints & facets
+│   │   ├── courses.xsl                 # XSL Transformation stylesheet (XML -> HTML)
+│   │   └── courses_transformed.html    # Transformed HTML output preview
+│   ├── WEB-INF/
+│   │   ├── web.xml                     # Deployment Descriptor (Servlets, params, timeouts)
+│   │   ├── classes/                    # Compiled Java bytecode for Tomcat deployment
+│   │   └── views/                      # Protected JSP Presentation Views (MVC)
+│   │       ├── header.jsp              # Shared header fragment
+│   │       ├── dashboard.jsp           # Faculty dashboard with all 9 implicit objects
+│   │       ├── courses.jsp             # Dynamic course directory table
+│   │       ├── addCourse.jsp           # Dynamic course addition form
+│   │       ├── editCourse.jsp          # Pre-populated course edit form
+│   │       └── error.jsp               # Centralized exception handler
 │   ├── index.html                      # Portal home page
-│   ├── courses.html                    # Course directory with live JS search & UI action buttons
-│   ├── addCourse.html                  # Course creation form with client-side validation
-│   └── login.html                      # Faculty authentication form
+│   ├── courses.html                    # Static course directory with client-side search
+│   ├── addCourse.html                  # Static course creation form
+│   └── login.html                      # Static faculty authentication form
+├── lib/                                # Tomcat Servlet & JSP compile-time APIs
 ├── README.md                           # Project documentation & execution guide
 └── SYLLABUS_MAPPING.md                 # 3-column syllabus-to-code viva evaluation reference
 ```
@@ -118,7 +149,7 @@ if (!(Test-Path "bin")) { New-Item -ItemType Directory -Path "bin" }
 if (!(Test-Path "WebContent\WEB-INF\classes")) { New-Item -ItemType Directory -Path "WebContent\WEB-INF\classes" }
 
 # Compile all source files
-javac -cp "lib\servlet-api.jar;lib\jsp-api.jar" -d bin src\com\portal\model\*.java src\com\portal\util\*.java src\com\portal\dao\*.java src\com\portal\controller\*.java src\com\portal\test\*.java
+javac -cp "lib\servlet-api.jar;lib\jsp-api.jar" -d bin src\com\portal\model\*.java src\com\portal\util\*.java src\com\portal\dao\*.java src\com\portal\controller\*.java src\com\portal\xml\*.java src\com\portal\test\*.java
 
 # Deploy compiled classes into WebContent/WEB-INF/classes for Tomcat
 Copy-Item -Recurse -Force "bin\com" "WebContent\WEB-INF\classes\"
@@ -354,7 +385,75 @@ error.jsp renders user-friendly recovery UI using the 'exception' implicit objec
 
 ---
 
-## 9. Git Version Control Workflow
+## 10. XML Suite (DTD, XSD, XSLT, DOM & SAX Parsers)
+
+The XML suite demonstrates all six syllabus topics for structured data exchange, validation, transformation, and parsing using standard JDK tools (`javax.xml.*`, `org.w3c.dom.*`, `org.xml.sax.*`) without external dependencies.
+
+### A. XML Course Catalog Structure (`WebContent/xml/courses.xml`)
+* Represents academic offerings with root `<courses>` and repeated `<course id="...">` records.
+* Contains `<courseId>`, `<courseName>`, `<faculty>`, `<credits>`, `<courseType>`, `<academicLevel>`, and `<description>`.
+* Includes the XML Prolog and references both DTD grammar and XML Schema (XSD), along with an XSLT transformation processing instruction:
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <?xml-stylesheet type="text/xsl" href="courses.xsl"?>
+  <!DOCTYPE courses SYSTEM "courses.dtd">
+  <courses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="courses.xsd"
+           department="Computer Science &amp; Engineering"
+           academicYear="2026-2027">
+  ```
+
+### B. DTD vs. XML Schema (XSD) Comparison
+Both technologies define the structure of XML documents, but with crucial differences:
+
+| Feature | Document Type Definition (DTD) | XML Schema Definition (XSD) |
+| :--- | :--- | :--- |
+| **File** | [WebContent/xml/courses.dtd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.dtd) | [WebContent/xml/courses.xsd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xsd) |
+| **Syntax** | Non-XML, legacy SGML-derived grammar (`<!ELEMENT ...>`) | Native XML syntax (`<xs:schema ...>`) |
+| **Data Types** | Very limited: essentially strings (`#PCDATA`, `CDATA`, `ID`) | Rich built-in types (`xs:string`, `xs:integer`, `xs:date`, etc.) |
+| **Constraints / Facets** | Cannot enforce numeric ranges or regex patterns | Powerful facets: `<xs:pattern>`, `<xs:minInclusive>`, `<xs:enumeration>` |
+| **Namespaces** | Does not natively support XML namespaces | Full namespace support (`xmlns:xs="..."`) |
+| **Extensibility** | Fixed syntax, hard to extend | Self-describing, extensible via complex and simple types |
+
+### C. XSLT Transformation (`WebContent/xml/courses.xsl`)
+XSLT (Extensible Stylesheet Language Transformations) transforms XML documents into presentation formats like HTML.
+* Uses `<xsl:template match="/">` to match the document root.
+* Uses `<xsl:for-each select="courses/course">` to iterate over records.
+* Uses `<xsl:sort select="courseId" order="ascending"/>` to sort courses.
+* Uses `<xsl:value-of select="..."/>` to extract field text.
+* Outputs a responsive HTML5 table with custom styling ([courses_transformed.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses_transformed.html)).
+
+### D. DOM Parser vs. SAX Parser Comparison
+
+| Characteristic | DOM Parser (Document Object Model) | SAX Parser (Simple API for XML) |
+| :--- | :--- | :--- |
+| **Implementation** | [DOMParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/DOMParserDemo.java) | [SAXParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/SAXParserDemo.java) |
+| **Parsing Model** | **Tree-based**: loads entire document into memory as a node tree | **Event-driven**: streams sequentially through file, triggering event callbacks |
+| **Memory Consumption** | High (proportional to XML file size; builds DOM node tree) | Extremely low (constant memory footprint; does not store the tree) |
+| **Traversal Direction**| **Bidirectional**: navigate parents, children, and siblings | **Forward-only**: single pass from top to bottom; cannot backtrack |
+| **Node Modification** | Full read/write capability: can add, edit, or delete nodes | Read-only streaming: cannot modify or re-order XML nodes directly |
+| **Key Java Classes** | `DocumentBuilderFactory`, `DocumentBuilder`, `Document`, `Element`, `NodeList` | `SAXParserFactory`, `SAXParser`, `DefaultHandler`, `Attributes` |
+| **Best Used For** | Small-to-medium files requiring random access or editing | Large XML feeds, high-throughput pipelines, read-only extraction |
+
+### E. How to Run XML Tests and Parsers
+
+```powershell
+# 1. Compile XML and test classes
+javac -cp "lib\servlet-api.jar;lib\jsp-api.jar" -d bin src\com\portal\model\*.java src\com\portal\util\*.java src\com\portal\dao\*.java src\com\portal\controller\*.java src\com\portal\xml\*.java src\com\portal\test\*.java
+
+# 2. Run Comprehensive XML Suite Test (XSD Validation + DOM + SAX + XSLT)
+java -cp bin com.portal.test.XMLTest
+
+# 3. Run DOM Parser standalone
+java -cp bin com.portal.xml.DOMParserDemo
+
+# 4. Run SAX Parser standalone
+java -cp bin com.portal.xml.SAXParserDemo
+```
+
+---
+
+## 11. Git Version Control Workflow
 
 This project is tracked using Git to demonstrate syllabus requirements for version control:
 
@@ -369,7 +468,7 @@ git status
 git add .
 
 # 4. Commit changes with a descriptive message
-git commit -m "Implement Stage 4: JSP Views, MVC integration, and error handling"
+git commit -m "Implement Stage 5: XML Suite (DTD, XSD, XSLT, DOM, SAX)"
 
 # 5. Create and switch to main branch
 git branch -M main
@@ -383,6 +482,6 @@ git push -u origin main
 
 ---
 
-## 10. Syllabus Demonstration Quick Links
+## 12. Syllabus Demonstration Quick Links
 
 For the exact file and method locations of every syllabus topic, refer to [SYLLABUS_MAPPING.md](file:///c:/Users/sivak/Faculty-Course-Portal/SYLLABUS_MAPPING.md).

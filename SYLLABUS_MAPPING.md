@@ -101,6 +101,27 @@ This document provides a comprehensive mapping between the **College Web Technol
 
 ---
 
-## 6. Upcoming Stages (To Be Implemented Incrementally)
-- **XML:** XML structure, DTD validation, XML Schema (XSD) validation, XSLT Transformation, DOM Parser, SAX Parser.
+## 6. XML Syllabus Mapping
+
+| Syllabus Topic | File / Resource | Implementation & Demonstration Details |
+| :--- | :--- | :--- |
+| **Introduction to XML** | [WebContent/xml/courses.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xml) | Well-formed XML document with XML Prolog (`<?xml version="1.0" encoding="UTF-8"?>`), single root element (`<courses>`), nested `<course>` entities, strict case sensitivity, paired matching tags, and attributes (`department`, `academicYear`, `id`). |
+| **DTD (Document Type Definition)** | [WebContent/xml/courses.dtd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.dtd), [WebContent/xml/courses.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xml#L3) | Element definitions (`<!ELEMENT courses (course+)>`, `<!ELEMENT course (...)>`, `#PCDATA`), attribute definitions (`<!ATTLIST course id ID #REQUIRED>`), and SYSTEM DTD reference (`<!DOCTYPE courses SYSTEM "courses.dtd">`). |
+| **XML Schema (XSD)** | [WebContent/xml/courses.xsd](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xsd), [WebContent/xml/courses.xml](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xml#L17-L20) | W3C XML Schema validating data types (`xs:string`, `xs:integer`), complex types, element sequences, regex pattern facets (`<xs:pattern value="C[0-9]{3}"/>`), credit range facets (`xs:minInclusive value="1"`, `xs:maxInclusive value="6"`), and enumeration facets (`xs:enumeration value="Theory"`). Linked via `xmlns:xsi` and `xsi:noNamespaceSchemaLocation`. |
+| **XSLT (Extensible Stylesheet Language Transformations)** | [WebContent/xml/courses.xsl](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses.xsl), [WebContent/xml/courses_transformed.html](file:///c:/Users/sivak/Faculty-Course-Portal/WebContent/xml/courses_transformed.html) | Declarative XML transformation converting raw XML into styled HTML5 presentation: `xsl:stylesheet`, `xsl:template match="/"`, `xsl:for-each`, `xsl:sort select="courseId"`, `xsl:value-of`, HTML table rendering with responsive CSS. Linked via `<?xml-stylesheet type="text/xsl" href="courses.xsl"?>`. |
+| **DOM Parser (Document Object Model)** | [DOMParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/DOMParserDemo.java) | Tree-based, in-memory XML parsing using JDK built-in packages: `javax.xml.parsers.DocumentBuilderFactory`, `DocumentBuilder`, `org.w3c.dom.Document`, `Element`, `NodeList`, `Node`. Parses XML, traverses child nodes, reads attributes and text content, and populates `List<Course>` JavaBean collections. |
+| **SAX Parser (Simple API for XML)** | [SAXParserDemo.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/xml/SAXParserDemo.java) | Event-driven, push-based streaming parser using JDK built-in packages: `javax.xml.parsers.SAXParserFactory`, `SAXParser`, and custom handler extending `org.xml.sax.helpers.DefaultHandler`. Overrides event hooks `startDocument()`, `startElement()`, `characters()`, `endElement()`, and `endDocument()` for memory-efficient parsing. |
+| **XML Test Suite & Validation Runner** | [src/com/portal/test/XMLTest.java](file:///c:/Users/sivak/Faculty-Course-Portal/src/com/portal/test/XMLTest.java) | Terminal runner executing 4-in-1 XML test suite: (1) Programmatic XSD schema validation via `javax.xml.validation.SchemaFactory`, (2) DOM parser execution, (3) SAX parser execution, and (4) XSLT transformation pipeline using `javax.xml.transform.TransformerFactory`. |
+
+---
+
+## 7. Git Version Control Syllabus Mapping
+
+| Syllabus Topic | File / Resource / Concept | Implementation & Demonstration Details |
+| :--- | :--- | :--- |
+| **Version Control** | Entire Git history | Tracks snapshots of project state over time, enabling non-destructive experimentation, change inspection, rollback, and team collaboration. |
+| **Git** | Distributed VCS Architecture | Every local clone possesses the full historical repository with independent commits, branching, and staging areas. |
+| **Git Installation** | Installed Git CLI runtime | Verifiable via `git --version` in terminal. |
+| **Git Features** | Project commit history & branches | Content addressable snapshot model (SHA-1 hashing), local speed, cryptographic data integrity, staging index (`index`), branches (`main`). |
+| **Git Workflow** | Multi-stage incremental commit record | Working Directory &rarr; Staging Area (`git add`) &rarr; Local Repository (`git commit`) &rarr; Remote Repository (`git push`). Commit history structured cleanly across syllabus stages. |
 
