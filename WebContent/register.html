@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Registration - Faculty Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>Faculty Course Management Portal</h1>
+        <p>Faculty Account Registration</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="addCourse.html">Add Course</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+    </nav>
+
+    <main>
+
+        <section>
+            <h2>Create Faculty Account</h2>
+
+            <!-- NOTIFICATION / ALERT MESSAGE BOX -->
+            <div id="alertBox" class="alert" style="display: none;"></div>
+
+            <!-- REGISTRATION FORM -->
+            <form id="registerForm" action="register" method="post" onsubmit="return validateRegistration()">
+                <fieldset>
+                    <legend>Personal & Academic Details</legend>
+
+                    <!-- FULL NAME -->
+                    <label for="fullName">Full Name <span style="color: red;">*</span></label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        placeholder="e.g. Dr. Jane Smith"
+                        required>
+
+                    <!-- USERNAME -->
+                    <label for="username">Username <span style="color: red;">*</span></label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username (3-50 alphanumeric characters)"
+                        autocomplete="username"
+                        required>
+
+                    <!-- EMAIL -->
+                    <label for="email">Email Address <span style="color: red;">*</span></label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="e.g. janesmith@college.edu"
+                        required>
+
+                    <!-- DEPARTMENT -->
+                    <label for="department">Department</label>
+                    <select id="department" name="department">
+                        <option value="Computer Science" selected>Computer Science</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Electronics & Communication">Electronics & Communication</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    </select>
+
+                    <!-- DESIGNATION -->
+                    <label for="designation">Designation</label>
+                    <select id="designation" name="designation">
+                        <option value="Assistant Professor" selected>Assistant Professor</option>
+                        <option value="Associate Professor">Associate Professor</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Lecturer">Lecturer</option>
+                        <option value="Head of Department">Head of Department</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Security</legend>
+
+                    <!-- PASSWORD -->
+                    <label for="password">Password <span style="color: red;">*</span></label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Choose a secure password (min. 4 characters)"
+                        autocomplete="new-password"
+                        required>
+
+                    <!-- CONFIRM PASSWORD -->
+                    <label for="confirmPassword">Confirm Password <span style="color: red;">*</span></label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        required>
+                </fieldset>
+
+                <!-- SUBMIT AND RESET BUTTONS -->
+                <div class="form-actions">
+                    <button type="submit" class="btn">Register</button>
+                    <button type="reset" class="btn btn-reset">Clear</button>
+                </div>
+
+                <div class="form-footer-link">
+                    Already have an account? <a href="login.html">Sign in here</a>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; Faculty Course Management Portal</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function validateRegistration() {
+            var name = document.getElementById("fullName").value.trim();
+            var user = document.getElementById("username").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var pass = document.getElementById("password").value;
+            var confirmPass = document.getElementById("confirmPassword").value;
+
+            if (name === "" || user === "" || email === "" || pass === "" || confirmPass === "") {
+                showAlert("Please fill in all required fields.", "danger");
+                return false;
+            }
+
+            if (!/^[a-zA-Z0-9_]{3,50}$/.test(user)) {
+                showAlert("Username must be between 3 and 50 characters (letters, numbers, underscores).", "danger");
+                document.getElementById("username").focus();
+                return false;
+            }
+
+            if (pass.length < 4) {
+                showAlert("Password must be at least 4 characters long.", "danger");
+                document.getElementById("password").focus();
+                return false;
+            }
+
+            if (pass !== confirmPass) {
+                showAlert("Passwords do not match. Please re-enter your password.", "danger");
+                document.getElementById("confirmPassword").focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        function showAlert(message, type) {
+            var box = document.getElementById("alertBox");
+            box.textContent = message;
+            box.className = "alert alert-" + type;
+            box.style.display = "block";
+        }
+
+        // Parse URL error parameters
+        (function handleUrlParams() {
+            var params = new URLSearchParams(window.location.search);
+            var err = params.get("error");
+
+            if (err === "empty_fields") {
+                showAlert("Please fill in all required fields.", "danger");
+            } else if (err === "password_mismatch") {
+                showAlert("Passwords do not match. Please try again.", "danger");
+            } else if (err === "password_too_short") {
+                showAlert("Password must be at least 4 characters long.", "danger");
+            } else if (err === "invalid_username") {
+                showAlert("Invalid username. Use 3-50 letters, numbers, or underscores.", "danger");
+            } else if (err === "username_taken") {
+                showAlert("That username is already taken. Please choose another.", "danger");
+            } else if (err === "email_taken") {
+                showAlert("An account with that email already exists. Please log in or use another email.", "danger");
+            } else if (err === "registration_failed") {
+                showAlert("Registration failed due to a database error. Please try again.", "danger");
+            }
+        })();
+    </script>
+
+</body>
+
+</html>

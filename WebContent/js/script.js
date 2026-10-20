@@ -35,31 +35,7 @@ window.addEventListener("load", function () {
 
     console.log(portalName);
 
-    displayDate();
-
-    drawCanvas();
-
 });
-
-
-/* =========================================
-   4. DATE OBJECT
-   ========================================= */
-
-function displayDate() {
-
-    let today = new Date();
-
-    let dateElement = document.getElementById("date");
-
-    if (dateElement) {
-
-        dateElement.innerHTML =
-            today.toLocaleDateString();
-
-    }
-
-}
 
 
 /* =========================================
@@ -420,81 +396,6 @@ function testErrorHandling() {
         );
 
     }
-
-}
-
-
-/* =========================================
-   15. CANVAS GRAPHICS
-   ========================================= */
-
-function drawCanvas() {
-
-    let canvas =
-        document.getElementById("courseCanvas");
-
-    if (!canvas) {
-
-        return;
-
-    }
-
-
-    let context =
-        canvas.getContext("2d");
-
-
-    /* Draw title */
-
-    context.font = "20px Arial";
-
-    context.fillText(
-        "Faculty Course Portal",
-        30,
-        40
-    );
-
-
-    /* Draw course blocks */
-
-    context.fillStyle = "#1e3a5f";
-
-    context.fillRect(
-        30,
-        70,
-        150,
-        60
-    );
-
-
-    context.fillStyle = "#ffffff";
-
-    context.font = "16px Arial";
-
-    context.fillText(
-        "Courses",
-        70,
-        105
-    );
-
-
-    context.fillStyle = "#4caf50";
-
-    context.fillRect(
-        220,
-        70,
-        150,
-        60
-    );
-
-
-    context.fillStyle = "#ffffff";
-
-    context.fillText(
-        "Faculty",
-        260,
-        105
-    );
 
 }
 

@@ -23,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Course - Faculty Portal (JSP View)</title>
+    <title>Edit Course - Faculty Course Management Portal</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
 </head>
 <body>
@@ -32,11 +32,9 @@
 
     <main>
         <section>
-            <h2>Edit Course Details (JavaBean Access Demonstration)</h2>
+            <h2>Edit Course Details</h2>
             <p>
-                Editing Course ID: <strong><jsp:getProperty name="course" property="courseId" /></strong>.
-                Properties below are populated directly from the <code>com.portal.model.Course</code> JavaBean 
-                bound to request scope by <code>EditCourseServlet</code>.
+                Editing Course ID: <strong><jsp:getProperty name="course" property="courseId" /></strong>
             </p>
 
             <!-- EDIT COURSE FORM -->
@@ -115,7 +113,7 @@
     </main>
 
     <footer>
-        <p>Faculty Course Management Portal - Edit Course JSP View (SDG 4)</p>
+        <p>&copy; Faculty Course Management Portal</p>
     </footer>
 
     <!-- Client-Side JavaScript Validation -->

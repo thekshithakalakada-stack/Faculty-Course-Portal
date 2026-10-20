@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.portal.dao.CourseDAO;
 import com.portal.model.Course;
@@ -37,6 +38,14 @@ public class AddCourseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+
+        // Session authentication check
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("facultyUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.html?error=please_login");
+            return;
+        }
+
         // Forward GET requests to the JSP course creation form view
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/addCourse.jsp");
         dispatcher.forward(request, response);
@@ -45,6 +54,13 @@ public class AddCourseServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+
+        // Session authentication check
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("facultyUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.html?error=please_login");
+            return;
+        }
 
         // 1. Reading form parameters sent from HTML/JSP form
         String courseId = request.getParameter("courseId");

@@ -13,7 +13,7 @@
     <!-- HEADER -->
     <header>
         <h1>Faculty Course Management Portal</h1>
-        <p>Faculty Authentication Portal</p>
+        <p>Faculty Sign In</p>
     </header>
 
     <!-- NAVIGATION -->
@@ -22,28 +22,30 @@
         <a href="courses.html">Courses</a>
         <a href="addCourse.html">Add Course</a>
         <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
     </nav>
 
     <main>
 
         <section>
-            <h2>Faculty Authentication</h2>
-            <p>
-                Sign in with your faculty credentials to manage your assigned courses, grades, and syllabus records.
-            </p>
+            <h2>Faculty Sign In</h2>
+
+            <!-- NOTIFICATION / ALERT MESSAGE BOX -->
+            <div id="alertBox" class="alert" style="display: none;"></div>
 
             <!-- LOGIN FORM -->
             <form id="loginForm" action="login" method="post" onsubmit="return validateLogin()">
                 <fieldset>
-                    <legend>Faculty Sign In</legend>
+                    <legend>Credentials</legend>
 
                     <!-- USERNAME -->
-                    <label for="username">Faculty Username / ID <span style="color: red;">*</span></label>
+                    <label for="username">Username <span style="color: red;">*</span></label>
                     <input
                         type="text"
                         id="username"
                         name="username"
-                        placeholder="e.g. prof_rao"
+                        placeholder="Enter your username"
+                        autocomplete="username"
                         required>
 
                     <!-- PASSWORD -->
@@ -53,6 +55,7 @@
                         id="password"
                         name="password"
                         placeholder="Enter your password"
+                        autocomplete="current-password"
                         required>
                 </fieldset>
 
@@ -61,48 +64,69 @@
                     <button type="submit" class="btn">Sign In</button>
                     <button type="reset" class="btn btn-reset">Clear</button>
                 </div>
-            </form>
-        </section>
 
-        <!-- SECURITY & ACADEMIC NOTICE -->
-        <section>
-            <h2>Demo Credentials & Security Notes</h2>
-            <p>
-                For testing during college evaluation:
-            </p>
-            <ul>
-                <li><strong>Username:</strong> <code>admin</code> or <code>dr_rao</code></li>
-                <li><strong>Password:</strong> <code>admin123</code></li>
-            </ul>
-            <p>
-                <em>This form uses standard HTTP POST method and will interface with LoginServlet and JDBC in the backend phase.</em>
-            </p>
+                <div class="form-footer-link">
+                    Don't have an account? <a href="register.html">Register here</a>
+                </div>
+            </form>
         </section>
 
     </main>
 
     <!-- FOOTER -->
     <footer>
-        <p>Faculty Course Management Portal</p>
-        <p>SDG 4 - Quality Education</p>
+        <p>&copy; Faculty Course Management Portal</p>
     </footer>
 
     <!-- JavaScript -->
-    <script src="js/script.js"></script>
     <script>
         function validateLogin() {
             var user = document.getElementById("username").value.trim();
             var pass = document.getElementById("password").value.trim();
             if (user === "") {
-                alert("Please enter your faculty username.");
+                showAlert("Please enter your username.", "danger");
                 return false;
             }
             if (pass === "") {
-                alert("Please enter your password.");
+                showAlert("Please enter your password.", "danger");
                 return false;
             }
             return true;
         }
+
+        function showAlert(message, type) {
+            var box = document.getElementById("alertBox");
+            box.textContent = message;
+            box.className = "alert alert-" + type;
+            box.style.display = "block";
+        }
+
+        // Parse URL parameters for status messages
+        (function handleUrlParams() {
+            var params = new URLSearchParams(window.location.search);
+
+            if (params.get("error") === "invalid_credentials") {
+                showAlert("Invalid username or password.", "danger");
+            } else if (params.get("error") === "empty_fields") {
+                showAlert("Please provide both username and password.", "danger");
+            } else if (params.get("error") === "please_login") {
+                showAlert("Please sign in to access that page.", "danger");
+            } else if (params.get("error") === "session_expired") {
+                showAlert("Your session has expired. Please sign in again.", "danger");
+            } else if (params.get("registered") === "success") {
+                showAlert("Registration successful! You can now sign in with your credentials.", "success");
+            } else if (params.get("logout") === "success") {
+                showAlert("You have been signed out successfully.", "success");
+            }
+
+            var rememberedUser = params.get("user");
+            if (rememberedUser) {
+                var userField = document.getElementById("username");
+                if (userField) {
+                    userField.value = rememberedUser;
+                }
+            }
+        })();
     </script>
 
 </body>

@@ -45,10 +45,7 @@
 </head>
 <body>
 
-    <!-- ===============================================================
-         DIRECTIVE ELEMENT: <%@ include file="..." %>
-         Includes the header view statically at translation time
-         =============================================================== -->
+    <%-- Static include of header view --%>
     <%@ include file="header.jsp" %>
 
     <main>
@@ -87,12 +84,10 @@
             }
         %>
 
-        <!-- COURSE DIRECTORY HEADER & ACTIONS -->
         <section>
-            <h2>Department Course Directory (JSP View)</h2>
+            <h2>Department Course Directory</h2>
             <p>
-                This view displays records retrieved from the MySQL database by <code>CourseServlet</code> 
-                and forwarded to this JSP view using <code>request.getAttribute("courseList")</code>.
+                Browse, search, and manage registered departmental courses.
             </p>
             <p>
                 <a href="<%= request.getContextPath() %>/addCourse" class="btn btn-edit">+ Add New Course</a>
@@ -131,7 +126,6 @@
             <h2>Registered Courses Table</h2>
             <div style="overflow-x: auto;">
                 <table>
-                    <caption>Database Records Rendered via JSP Expression Elements</caption>
                     <thead>
                         <tr>
                             <th>Course ID</th>
@@ -196,7 +190,7 @@
     </main>
 
     <footer>
-        <p>Faculty Course Management Portal - JSP Course View (SDG 4)</p>
+        <p>&copy; Faculty Course Management Portal</p>
     </footer>
 
 </body>

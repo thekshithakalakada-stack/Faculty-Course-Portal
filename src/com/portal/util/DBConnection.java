@@ -27,20 +27,40 @@ import java.sql.SQLException;
 public class DBConnection {
 
     // =================================================================
-    // CONFIGURABLE DATABASE CREDENTIALS (Easily editable for evaluation)
+    // Database connection settings are read from system properties first and
+    // environment variables second. Keep credentials out of source control.
     // =================================================================
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver"; // Type 4 Pure Java MySQL Driver
-    private static final String DB_HOST = "localhost";
-    private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "faculty_portal";
+    private static final String DB_HOST = setting("faculty.db.host", "FACULTY_DB_HOST", "localhost");
+    private static final String DB_PORT = setting("faculty.db.port", "FACULTY_DB_PORT", "3306");
+    private static final String DB_NAME = setting("faculty.db.name", "FACULTY_DB_NAME", "faculty_portal");
     
     // Connection URL format: jdbc:<subprotocol>://<host>:<port>/<database>
     private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME 
             + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
-    // Change default credentials below to match your local MySQL configuration
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "root";
+    private static final String DB_USER = requiredSetting("faculty.db.user", "FACULTY_DB_USER");
+    private static final String DB_PASSWORD = requiredSetting("faculty.db.password", "FACULTY_DB_PASSWORD");
+
+    private static String setting(String property, String environment, String fallback) {
+        String value = System.getProperty(property);
+        if (value == null || value.trim().isEmpty()) {
+            value = System.getenv(environment);
+        }
+        return value == null || value.trim().isEmpty() ? fallback : value.trim();
+    }
+
+    private static String requiredSetting(String property, String environment) {
+        String value = System.getProperty(property);
+        if (value == null || value.trim().isEmpty()) {
+            value = System.getenv(environment);
+        }
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalStateException("Missing database setting. Configure system property '"
+                    + property + "' or environment variable '" + environment + "'.");
+        }
+        return value.trim();
+    }
 
     // Static block to register the JDBC driver class
     static {

@@ -21,3 +21,18 @@ bin/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+secrets.properties
+application-local.properties
+
+# Logs and temporary files
+*.log
+.DS_Store
+Thumbs.db
+
+# This is a Java Servlet/JSP project; do not track Node lockfiles
+package-lock.json

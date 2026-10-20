@@ -23,16 +23,14 @@
 
     <header>
         <h1>Faculty Course Management Portal</h1>
-        <p>System Notification &amp; Error Recovery</p>
+        <p>System Notification</p>
     </header>
 
     <main>
         <section style="border-left: 5px solid #dc2626;">
             <h2 style="color: #dc2626;">An Application Error Has Occurred</h2>
             <p>
-                The requested operation could not be completed successfully. 
-                This error page demonstrates the JSP Error Handling mechanism using the 
-                <code>&lt;%@ page isErrorPage="true" %&gt;</code> directive and the <code>exception</code> implicit object.
+                The requested operation could not be completed successfully.
             </p>
 
             <div style="background-color: #fef2f2; border: 1px solid #fecaca; padding: 15px; border-radius: 6px; margin: 20px 0;">
@@ -49,11 +47,6 @@
                 </p>
             </div>
 
-            <p>
-                <strong>Security Notice:</strong> In compliance with secure academic coding standards, 
-                internal database credentials and system stack traces are suppressed.
-            </p>
-
             <div style="margin-top: 25px;">
                 <a href="<%= request.getContextPath() %>/dashboard" class="btn">Return to Dashboard</a>
                 <a href="<%= request.getContextPath() %>/courses" class="btn btn-secondary">View Courses</a>
@@ -63,7 +56,7 @@
     </main>
 
     <footer>
-        <p>Faculty Course Management Portal - Error Recovery View (SDG 4)</p>
+        <p>&copy; Faculty Course Management Portal</p>
     </footer>
 
 </body>

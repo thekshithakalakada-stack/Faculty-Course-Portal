@@ -20,7 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Course - Faculty Portal (JSP View)</title>
+    <title>Add Course - Faculty Course Management Portal</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/style.css">
 </head>
 <body>
@@ -30,10 +30,9 @@
 
     <main>
         <section>
-            <h2>Add New Course (JSP MVC View)</h2>
+            <h2>Add New Course</h2>
             <p>
-                Enter the course offering details below. Submitting this form invokes the <code>AddCourseServlet</code> 
-                controller, which validates the inputs, creates a <code>Course</code> JavaBean, and persists the record using <code>CourseDAO</code>.
+                Enter the details of the new course offering below.
             </p>
 
             <!-- Error Banner -->
@@ -113,7 +112,7 @@
     </main>
 
     <footer>
-        <p>Faculty Course Management Portal - Add Course JSP View (SDG 4)</p>
+        <p>&copy; Faculty Course Management Portal</p>
     </footer>
 
     <!-- Client-Side JavaScript Validation -->

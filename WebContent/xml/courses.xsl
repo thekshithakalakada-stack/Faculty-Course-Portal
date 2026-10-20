@@ -21,7 +21,7 @@
         <html lang="en">
         <head>
             <meta charset="UTF-8"/>
-            <title>Courses XML Data - XSLT Transformation</title>
+            <title>Course Catalog - Faculty Course Management Portal</title>
             <style>
                 body {
                     font-family: Arial, sans-serif;
@@ -55,15 +55,7 @@
                     font-size: 14px;
                     color: #cbd5e1;
                 }
-                .info-box {
-                    background-color: #e0f2fe;
-                    border-left: 4px solid #0284c7;
-                    padding: 12px 18px;
-                    margin-bottom: 25px;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    color: #0369a1;
-                }
+
                 table {
                     width: 100%;
                     border-collapse: collapse;
@@ -118,13 +110,8 @@
             <div class="container">
                 <header>
                     <h1>Faculty Course Management Portal</h1>
-                    <p>XML Course Data Rendered via XSLT Transformation (courses.xsl)</p>
+                    <p>Department Course Catalog</p>
                 </header>
-
-                <div class="info-box">
-                    <strong>XSLT Demonstration:</strong> This table was dynamically transformed from 
-                    <code>courses.xml</code> using XSLT template rules, <code>xsl:for-each</code>, and <code>xsl:value-of</code>.
-                </div>
 
                 <table>
                     <thead>
@@ -159,7 +146,7 @@
                 </table>
 
                 <div class="footer">
-                    Department of Computer Science &amp; Engineering | Web Technologies Course Evaluation
+                    &#169; Faculty Course Management Portal
                 </div>
             </div>
         </body>

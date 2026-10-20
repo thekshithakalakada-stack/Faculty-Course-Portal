@@ -13,14 +13,6 @@
     <!-- External CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Internal CSS - syllabus demonstration -->
-    <style>
-        .internal-style {
-            color: #1d4ed8;
-            text-align: center;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -48,6 +40,8 @@
 
         <a href="login.html">Login</a>
 
+        <a href="register.html">Register</a>
+
         <a href="xml/courses_transformed.html">XML Catalog</a>
 
     </nav>
@@ -63,16 +57,6 @@
             <p>
                 This portal helps faculty members
                 manage and view their courses.
-            </p>
-
-            <!-- Internal CSS Demonstration (styled via .internal-style in head) -->
-            <p class="internal-style">
-                Internal CSS: HTML, CSS, JavaScript, XML, JDBC, Servlets, and JSP Demonstration
-            </p>
-
-            <!-- Inline CSS Demonstration (styled via inline style attribute) -->
-            <p style="color: #065f46; background-color: #d1fae5; padding: 12px; border-left: 5px solid #059669; border-radius: 4px; font-weight: bold; margin-top: 15px;">
-                Inline CSS Demonstration: Quality Education and Academic Course Administration (SDG 4)
             </p>
 
         </section>
@@ -95,7 +79,7 @@
 
             <h2>Portal Features and Academic Terms</h2>
 
-            <h3>Available Features (Unordered List - ul)</h3>
+            <h3>Available Features</h3>
 
             <ul>
 
@@ -112,7 +96,7 @@
             </ul>
 
 
-            <h3>How to Use (Ordered List - ol)</h3>
+            <h3>How to Use</h3>
 
             <ol>
 
@@ -127,7 +111,7 @@
             </ol>
 
 
-            <h3>Academic Terminology (Definition List - dl)</h3>
+            <h3>Academic Terminology</h3>
 
             <dl>
 
@@ -152,7 +136,7 @@
 
             <table>
 
-                <caption>Table 1: Department Registered Courses Preview</caption>
+                <caption>Department Registered Courses Preview</caption>
 
                 <thead>
 
@@ -239,7 +223,7 @@
             <p>
 
                 <a href="xml/courses.xml" target="_blank">
-                    XML Course Catalog (courses.xml - Raw Data)
+                    XML Course Catalog
                 </a>
 
             </p>
@@ -247,7 +231,7 @@
             <p>
 
                 <a href="xml/courses_transformed.html" target="_blank">
-                    XSLT Transformed Course Catalog (HTML View)
+                    Course Catalog (HTML View)
                 </a>
 
             </p>
@@ -261,8 +245,7 @@
             <h2>Course Page Preview</h2>
 
             <p>
-                The iframe below demonstrates the
-                HTML frame concept.
+                Preview the department courses directory below:
             </p>
 
             <iframe
@@ -276,89 +259,6 @@
         </section>
 
 
-        <!-- HTML MEDIA -->
-        <section>
-
-            <h2>HTML Media</h2>
-
-            <h3>College Video</h3>
-
-            <video width="500" controls>
-
-                <source src="media/college.mp4"
-                        type="video/mp4">
-
-                Your browser does not support video.
-
-            </video>
-
-
-            <h3>Course Audio</h3>
-
-            <audio controls>
-
-                <source src="media/lecture.mp3"
-                        type="audio/mpeg">
-
-                Your browser does not support audio.
-
-            </audio>
-
-        </section>
-
-
-        <!-- HTML GRAPHICS -->
-        <section>
-
-            <h2>HTML Graphics</h2>
-
-            <h3>Canvas</h3>
-
-            <canvas id="courseCanvas"
-                    width="500"
-                    height="180">
-
-            </canvas>
-
-
-            <h3>SVG</h3>
-
-            <svg width="500"
-                 height="150">
-
-                <circle
-                    cx="100"
-                    cy="75"
-                    r="50"
-                    fill="steelblue">
-
-                </circle>
-
-                <rect
-                    x="200"
-                    y="35"
-                    width="150"
-                    height="80"
-                    fill="lightgreen">
-
-                </rect>
-
-            </svg>
-
-        </section>
-
-
-        <!-- CURRENT DATE -->
-        <section>
-
-            <h2>Today's Date</h2>
-
-            <p id="date">
-                Loading date...
-            </p>
-
-        </section>
-
     </main>
 
 
@@ -366,11 +266,7 @@
     <footer>
 
         <p>
-            Faculty Course Management Portal
-        </p>
-
-        <p>
-            SDG 4 - Quality Education
+            &copy; Faculty Course Management Portal
         </p>
 
     </footer>

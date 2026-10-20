@@ -44,6 +44,18 @@
     </servlet-mapping>
 
     <!-- =============================================================== -->
+    <!-- REGISTER SERVLET CONFIGURATION                                  -->
+    <!-- =============================================================== -->
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>com.portal.controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <!-- =============================================================== -->
     <!-- 2. LOGOUT SERVLET CONFIGURATION                                 -->
     <!-- =============================================================== -->
     <servlet>

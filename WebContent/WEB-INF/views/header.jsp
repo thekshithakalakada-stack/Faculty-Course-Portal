@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- ===================================================================
+<%-- ===================================================================
      HEADER COMPONENT (Reusable JSP View Fragment)
-     Syllabus Demonstration:
-       - Directive Include (<%@ include ... %>) / Action Include (<jsp:include ... />)
-       - JSP expression (<%= ... %>)
-     =================================================================== -->
+     =================================================================== --%>
 <header>
     <h1>Faculty Course Management Portal</h1>
-    <p>Academic Course Management System (MVC JSP View)</p>
+    <p>Faculty Course Management System</p>
 </header>
 
 <nav>
